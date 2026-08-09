@@ -1,0 +1,55 @@
+name: orgsites
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: orgsites-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: orgsites
+      POSTGRES_PASSWORD: orgsites
+      POSTGRES_DB: orgsites
+    ports:
+      - "5432:5432"
+    volumes:
+      - orgsites_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orgsites"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: orgsites-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - orgsites_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # S3-compatible local object storage for the media library.
+  # Swap for Cloudflare R2 / AWS S3 in staging & production.
+  minio:
+    image: minio/minio:latest
+    container_name: orgsites-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: orgsites
+      MINIO_ROOT_PASSWORD: orgsites123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - orgsites_minio_data:/data
+
+volumes:
+  orgsites_pg_data:
+  orgsites_redis_data:
+  orgsites_minio_data:

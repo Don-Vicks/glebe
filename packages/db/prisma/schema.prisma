@@ -1,0 +1,283 @@
+// OrgSites — core data model
+// Mirrors §8.4 of the Product & Technical Specification.
+// Multi-tenancy strategy: row-level (organization_id / site_id foreign keys),
+// enforced at the query layer. See spec §8.3 for the schema-per-tenant tradeoff
+// this intentionally defers.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Organizations & Users
+// ---------------------------------------------------------------------------
+
+enum OrgType {
+  NGO
+  FAITH_BASED
+  SCHOOL
+  FOUNDATION
+  OTHER
+}
+
+enum PlanTier {
+  FREE
+  STARTER
+  GROWTH
+  ENTERPRISE
+}
+
+model Organization {
+  id                String   @id @default(cuid())
+  name              String
+  type              OrgType  @default(NGO)
+  plan              PlanTier @default(FREE)
+  billingCustomerId String? // Stripe/Paystack customer reference
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  users         User[]
+  sites         Site[]
+  auditLogs     AuditLog[]
+
+  @@map("organizations")
+}
+
+enum UserRole {
+  OWNER
+  EDITOR
+  VIEWER
+}
+
+model User {
+  id             String   @id @default(cuid())
+  email          String   @unique
+  name           String?
+  passwordHash   String?
+  role           UserRole @default(EDITOR)
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([organizationId])
+  @@map("users")
+}
+
+model AuditLog {
+  id             String   @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String?
+  action         String // e.g. "page.publish", "domain.connect"
+  targetType     String? // e.g. "Page", "Site"
+  targetId       String?
+  metadata       Json?
+  createdAt      DateTime @default(now())
+
+  @@index([organizationId])
+  @@map("audit_logs")
+}
+
+// ---------------------------------------------------------------------------
+// Sites, Pages, Blocks
+// ---------------------------------------------------------------------------
+
+enum SiteStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Site {
+  id             String     @id @default(cuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  subdomain      String     @unique // e.g. "hope-foundation" -> hope-foundation.orgsites.app
+  customDomain   String?    @unique
+  status         SiteStatus @default(DRAFT)
+
+  // Global brand controls (§5.2)
+  themeColors    Json       @default("{\"primary\":\"#0E6E5C\",\"secondary\":\"#1B2A4A\",\"accent\":\"#C7962E\"}")
+  themeFonts     Json       @default("{\"heading\":\"Inter\",\"body\":\"Inter\"}")
+  logoUrl        String?
+
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  publishedAt    DateTime?
+
+  pages               Page[]
+  donationTransactions DonationTransaction[]
+  formSubmissions      FormSubmission[]
+  events               Event[]
+  posts                Post[]
+  domainVerification   DomainVerification?
+  paymentProviders     PaymentProviderConfig[]
+
+  @@index([organizationId])
+  @@map("sites")
+}
+
+model Page {
+  id        String   @id @default(cuid())
+  siteId    String
+  site      Site     @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  slug      String // "/", "/about", "/donate", "/programs" ...
+  title     String
+  seoMeta   Json     @default("{}") // { title, description, ogImage }
+
+  // Puck-compatible block-JSON tree (§8.3a / §8.4). Kept as an opaque JSON
+  // column so the shape can evolve without a migration per block-type change.
+  blocks    Json     @default("[]")
+
+  order     Int      @default(0)
+  isDraft   Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([siteId, slug])
+  @@index([siteId])
+  @@map("pages")
+}
+
+// ---------------------------------------------------------------------------
+// Payments & Donations (§8.6 payments abstraction)
+// ---------------------------------------------------------------------------
+
+enum PaymentProvider {
+  PAYSTACK
+  FLUTTERWAVE
+  STRIPE
+  PAYPAL
+}
+
+model PaymentProviderConfig {
+  id         String          @id @default(cuid())
+  siteId     String
+  site       Site            @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  provider   PaymentProvider
+  isActive   Boolean         @default(false)
+  // Secrets are never stored in plaintext here — this holds a reference
+  // (e.g. a KMS/secret-manager key) resolved at request time by the API.
+  secretRef  String?
+  publicKey  String?
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+
+  @@unique([siteId, provider])
+  @@map("payment_provider_configs")
+}
+
+enum DonationStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+model DonationTransaction {
+  id            String          @id @default(cuid())
+  siteId        String
+  site          Site            @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  provider      PaymentProvider
+  providerRef   String? // provider's own charge/subscription id
+  amount        Int // stored in minor units (kobo/cents)
+  currency      String          @default("NGN")
+  donorEmail    String?
+  donorName     String?
+  isRecurring   Boolean         @default(false)
+  status        DonationStatus  @default(PENDING)
+  receiptSentAt DateTime?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  @@index([siteId])
+  @@index([status])
+  @@map("donation_transactions")
+}
+
+// ---------------------------------------------------------------------------
+// Forms, Events, Posts
+// ---------------------------------------------------------------------------
+
+enum FormType {
+  VOLUNTEER
+  CONTACT
+  NEWSLETTER
+}
+
+model FormSubmission {
+  id        String   @id @default(cuid())
+  siteId    String
+  site      Site     @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  formType  FormType
+  payload   Json // arbitrary field map, shaped by the form's block config
+  createdAt DateTime @default(now())
+
+  @@index([siteId])
+  @@index([formType])
+  @@map("form_submissions")
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  siteId      String
+  site        Site     @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  title       String
+  description String?
+  location    String?
+  startAt     DateTime
+  endAt       DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([siteId])
+  @@map("events")
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  siteId      String
+  site        Site      @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  title       String
+  slug        String
+  body        String    @db.Text
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([siteId, slug])
+  @@index([siteId])
+  @@map("posts")
+}
+
+// ---------------------------------------------------------------------------
+// Custom domains (§8.5 publishing pipeline)
+// ---------------------------------------------------------------------------
+
+enum DomainStatus {
+  PENDING
+  VERIFYING
+  ACTIVE
+  FAILED
+}
+
+model DomainVerification {
+  id                String       @id @default(cuid())
+  siteId            String       @unique
+  site              Site         @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  domain            String       @unique
+  verificationToken String
+  status            DomainStatus @default(PENDING)
+  lastCheckedAt     DateTime?
+  createdAt         DateTime     @default(now())
+
+  @@map("domain_verifications")
+}

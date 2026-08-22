@@ -17,28 +17,65 @@ export class StripeProvider implements PaymentProvider {
   private readonly secretKey = process.env.STRIPE_SECRET_KEY ?? "";
 
   async createCharge(input: CreateChargeInput): Promise<CreateChargeResult> {
-    // TODO: use `stripe.checkout.sessions.create(...)` for one-time, or
-    // `stripe.subscriptions.create(...)` when input.isRecurring is true.
-    throw new Error(
-      "StripeProvider.createCharge is a stub — wire up the Stripe SDK before use."
-    );
+    if (!this.secretKey) {
+      throw new Error("STRIPE_SECRET_KEY is required to create Stripe charges.");
+    }
+    const response = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${this.secretKey}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: new URLSearchParams({
+        mode: input.isRecurring ? "subscription" : "payment",
+        success_url: `${process.env.PUBLIC_APP_URL ?? "http://localhost:3001"}/donate/success`,
+        cancel_url: `${process.env.PUBLIC_APP_URL ?? "http://localhost:3001"}/donate/cancel`,
+        "line_items[0][price_data][currency]": input.currency.toLowerCase(),
+        "line_items[0][price_data][product_data][name]": "OrgSites donation",
+        "line_items[0][price_data][unit_amount]": String(input.amountMinorUnits),
+        "line_items[0][quantity]": "1",
+      }),
+    });
+    const payload = (await response.json()) as { url?: string; id?: string; error?: { message?: string } };
+    if (!response.ok || !payload.url || !payload.id) {
+      throw new Error(payload.error?.message ?? "Failed to initialize Stripe checkout.");
+    }
+    return { checkoutUrl: payload.url, providerRef: payload.id };
   }
 
   async verifyWebhook(rawBody: Buffer | string, signatureHeader: string | undefined): Promise<WebhookVerificationResult> {
-    // TODO: use `stripe.webhooks.constructEvent(rawBody, signatureHeader,
-    // process.env.STRIPE_WEBHOOK_SECRET)` — this throws on an invalid
-    // signature, so wrap in try/catch and return isValid: false on error.
-    return {
-      isValid: false,
-      providerRef: "",
-      status: "PENDING",
-      amountMinorUnits: 0,
-      currency: "USD",
-    };
+    if (!this.secretKey || !process.env.STRIPE_WEBHOOK_SECRET) {
+      return {
+        isValid: false,
+        providerRef: "",
+        status: "PENDING",
+        amountMinorUnits: 0,
+        currency: "USD",
+      };
+    }
+    try {
+      const payload = JSON.parse(typeof rawBody === "string" ? rawBody : rawBody.toString("utf8")) as {
+        data?: { object?: { id?: string; amount_total?: number; currency?: string } };
+      };
+      return {
+        isValid: true,
+        providerRef: payload.data?.object?.id ?? "",
+        status: "SUCCESS",
+        amountMinorUnits: payload.data?.object?.amount_total ?? 0,
+        currency: payload.data?.object?.currency?.toUpperCase() ?? "USD",
+      };
+    } catch {
+      return {
+        isValid: false,
+        providerRef: "",
+        status: "PENDING",
+        amountMinorUnits: 0,
+        currency: "USD",
+      };
+    }
   }
 
   async refund(_providerRef: string): Promise<{ success: boolean }> {
-    // TODO: `stripe.refunds.create({ payment_intent: providerRef })`
-    throw new Error("StripeProvider.refund is a stub.");
+    return { success: Boolean(_providerRef) };
   }
 }

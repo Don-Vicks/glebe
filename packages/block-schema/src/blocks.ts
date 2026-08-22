@@ -101,8 +101,7 @@ export const donateCtaBlockSchema = z.object({
   props: z.object({
     heading: z.string().min(1).max(120),
     body: z.string().max(400).optional(),
-    // Which configured PaymentProvider(s) this block should offer.
-    // Resolved server-side against PaymentProviderConfig — never a secret here.
+    paymentProviderConfigId: z.string().optional(),
     suggestedAmounts: z.array(z.number().int().positive()).max(6).optional(),
     allowCustomAmount: z.boolean().default(true),
     allowRecurring: z.boolean().default(true),
@@ -114,6 +113,8 @@ export const eventListBlockSchema = z.object({
   props: z.object({
     heading: z.string().max(120).optional(),
     maxItems: z.number().int().min(1).max(20).default(5),
+    source: z.enum(["auto", "manual"]).default("auto"),
+    eventIds: z.array(z.string()).max(20).optional(),
   }),
 });
 

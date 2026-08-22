@@ -1,5 +1,6 @@
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@orgsites/db";
 
 /**
  * Called by apps/api's SiteBuildProcessor (spec §8.5 step 3) after a site
@@ -21,11 +22,23 @@ export async function POST(req: NextRequest) {
     customDomain?: string | null;
   };
 
-  // Revalidating the tenant's root path covers the homepage; extend this
-  // to loop over all of the site's Page.slug values once you want every
-  // page to revalidate on publish rather than just "/".
-  if (subdomain) revalidatePath("/");
-  if (customDomain) revalidatePath("/");
+  const site = await prisma.site.findFirst({
+    where:
+      subdomain
+        ? { subdomain }
+        : customDomain
+          ? { customDomain }
+          : undefined,
+    include: { pages: { select: { slug: true } } },
+  });
 
-  return NextResponse.json({ revalidated: true, subdomain, customDomain });
+  if (!site) {
+    return NextResponse.json({ error: "Site not found" }, { status: 404 });
+  }
+
+  for (const page of site.pages) {
+    revalidatePath(page.slug);
+  }
+
+  return NextResponse.json({ revalidated: true, subdomain, customDomain, paths: site.pages.map((page) => page.slug) });
 }

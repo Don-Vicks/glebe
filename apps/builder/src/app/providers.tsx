@@ -14,15 +14,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
         httpBatchLink({
           url: "/api/trpc",
           transformer: superjson,
-          // DEV-ONLY: injects the fake session headers read by
-          // apps/builder/src/server/context.ts. Remove once real auth
-          // (cookies/JWT) replaces this.
-          headers() {
-            if (process.env.NODE_ENV === "production") return {};
-            return {
-              "x-dev-org-id": "seed-org-hope-foundation",
-              "x-dev-user-id": "seed-user-founder",
-            };
+          fetch(url, options) {
+            return fetch(url, { ...options, credentials: "include" });
           },
         }),
       ],

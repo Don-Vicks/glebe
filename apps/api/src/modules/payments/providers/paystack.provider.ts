@@ -19,12 +19,36 @@ export class PaystackProvider implements PaymentProvider {
   private readonly secretKey = process.env.PAYSTACK_SECRET_KEY ?? "";
 
   async createCharge(input: CreateChargeInput): Promise<CreateChargeResult> {
-    // TODO: POST https://api.paystack.co/transaction/initialize
-    // with { email, amount: input.amountMinorUnits, currency: input.currency }
-    // Authorization: `Bearer ${this.secretKey}`
-    throw new Error(
-      "PaystackProvider.createCharge is a stub — wire up the Paystack Transactions API before use."
-    );
+    if (!this.secretKey) {
+      throw new Error("PAYSTACK_SECRET_KEY is required to create Paystack charges.");
+    }
+
+    const response = await fetch("https://api.paystack.co/transaction/initialize", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${this.secretKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: input.donorEmail ?? "donor@orgsites.local",
+        amount: input.amountMinorUnits,
+        currency: input.currency,
+        metadata: {
+          siteId: input.siteId,
+          isRecurring: input.isRecurring,
+        },
+      }),
+    });
+
+    const payload = (await response.json()) as { status: boolean; message?: string; data?: { authorization_url: string; reference: string } };
+    if (!response.ok || !payload.status || !payload.data) {
+      throw new Error(payload.message ?? "Failed to initialize Paystack charge.");
+    }
+
+    return {
+      checkoutUrl: payload.data.authorization_url,
+      providerRef: payload.data.reference,
+    };
   }
 
   async verifyWebhook(rawBody: Buffer | string, signatureHeader: string | undefined): Promise<WebhookVerificationResult> {
@@ -33,20 +57,50 @@ export class PaystackProvider implements PaymentProvider {
     const expected = createHmac("sha512", this.secretKey).update(rawBody).digest("hex");
     const isValid = Boolean(signatureHeader) && expected === signatureHeader;
 
-    // TODO: parse rawBody as JSON and map Paystack's event payload
-    // (event === "charge.success") into the shared WebhookVerificationResult
-    // shape below.
+    let payload: { event?: string; data?: { reference?: string; amount?: number; currency?: string } } = {};
+    try {
+      payload = JSON.parse(typeof rawBody === "string" ? rawBody : rawBody.toString("utf8"));
+    } catch {
+      return {
+        isValid: false,
+        providerRef: "",
+        status: "PENDING",
+        amountMinorUnits: 0,
+        currency: "NGN",
+      };
+    }
+
+    if (!isValid || payload.event !== "charge.success" || !payload.data?.reference) {
+      return {
+        isValid: false,
+        providerRef: payload.data?.reference ?? "",
+        status: "PENDING",
+        amountMinorUnits: payload.data?.amount ?? 0,
+        currency: payload.data?.currency ?? "NGN",
+      };
+    }
+
     return {
       isValid,
-      providerRef: "",
-      status: "PENDING",
-      amountMinorUnits: 0,
-      currency: "NGN",
+      providerRef: payload.data.reference,
+      status: "SUCCESS",
+      amountMinorUnits: payload.data.amount ?? 0,
+      currency: payload.data.currency ?? "NGN",
     };
   }
 
   async refund(_providerRef: string): Promise<{ success: boolean }> {
-    // TODO: POST https://api.paystack.co/refund
-    throw new Error("PaystackProvider.refund is a stub.");
+    if (!this.secretKey) {
+      throw new Error("PAYSTACK_SECRET_KEY is required to refund Paystack charges.");
+    }
+    const response = await fetch("https://api.paystack.co/refund", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${this.secretKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ transaction: _providerRef }),
+    });
+    return { success: response.ok };
   }
 }

@@ -6,7 +6,7 @@ export class FormsService {
   /** Public form submission from a rendered site's contact_form / volunteer block. */
   async submit(siteId: string, formType: FormType, payload: Record<string, unknown>) {
     return prisma.formSubmission.create({
-      data: { siteId, formType, payload },
+      data: { siteId, formType, payload: payload as any },
     });
   }
 
@@ -23,15 +23,20 @@ export class FormsService {
     if (submissions.length === 0) return "";
 
     const fieldNames = Array.from(
-      new Set(submissions.flatMap((s) => Object.keys(s.payload as Record<string, unknown>)))
+      new Set(
+        submissions.flatMap((submission) => {
+          const payload = (submission.payload || {}) as Record<string, any>;
+          return Object.keys(payload);
+        })
+      )
     );
     const header = ["createdAt", "formType", ...fieldNames].join(",");
-    const rows = submissions.map((s) => {
-      const payload = s.payload as Record<string, unknown>;
+    const rows = submissions.map((submission) => {
+      const payload = (submission.payload || {}) as Record<string, any>;
       const cells = [
-        s.createdAt.toISOString(),
-        s.formType,
-        ...fieldNames.map((f) => JSON.stringify(payload[f] ?? "")),
+        submission.createdAt.toISOString(),
+        submission.formType,
+        ...fieldNames.map((fieldName) => JSON.stringify(payload[fieldName] ?? "")),
       ];
       return cells.join(",");
     });

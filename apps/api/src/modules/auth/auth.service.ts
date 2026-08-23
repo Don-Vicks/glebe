@@ -1,7 +1,6 @@
 import { Injectable, BadRequestException, UnauthorizedException } from "@nestjs/common";
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import { prisma } from "@orgsites/db";
-import { signSessionToken } from "@orgsites/trpc";
 
 @Injectable()
 export class AuthService {

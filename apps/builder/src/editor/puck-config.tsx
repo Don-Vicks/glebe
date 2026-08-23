@@ -209,7 +209,7 @@ export const puckConfig: Config<PuckComponents> = {
         heading: { type: "text" },
         maxItems: { type: "number" },
         source: { type: "radio", options: [{ label: "Auto-pull from events", value: "auto" }, { label: "Manually curated", value: "manual" }] },
-        eventIds: { type: "array", arrayFields: { value: { type: "text" } } },
+        eventIds: { type: "array", arrayFields: { value: { type: "text" } } as any },
       },
       defaultProps: { heading: "Upcoming events", maxItems: 5, source: "auto" },
       render: ({ heading }) => (
@@ -226,7 +226,7 @@ export const puckConfig: Config<PuckComponents> = {
       fields: {
         heading: { type: "text" },
         submitLabel: { type: "text" },
-        fields: { type: "array", arrayFields: { value: { type: "text" } } },
+        fields: { type: "array", arrayFields: { value: { type: "text" } } as any },
       },
       defaultProps: { heading: "Contact us", submitLabel: "Send message", fields: ["name", "email", "message"] },
       render: ({ heading, submitLabel }) => (

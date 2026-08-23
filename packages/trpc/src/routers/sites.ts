@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { router, protectedProcedure, editorProcedure } from "../trpc";
@@ -6,9 +7,51 @@ export const sitesRouter = router({
   mine: protectedProcedure.query(async ({ ctx }) => {
     return ctx.db.site.findMany({
       where: { organizationId: ctx.session.organizationId },
+      include: { organization: true, pages: { select: { id: true, slug: true, title: true } } },
       orderBy: { createdAt: "asc" },
     });
   }),
+
+  create: editorProcedure
+    .input(
+      z.object({
+        name: z.string().min(2).max(80),
+        orgType: z.enum(["NGO", "FAITH_BASED", "SCHOOL", "FOUNDATION", "OTHER"]).optional(),
+        template: z.enum(["starter", "ngo", "faith", "school", "foundation"]).default("starter"),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const org = await ctx.db.organization.update({
+        where: { id: ctx.session.organizationId },
+        data: { ...(input.orgType ? { type: input.orgType } : {}) },
+      });
+
+      const slug = input.name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "")
+        .slice(0, 40);
+
+      const site = await ctx.db.site.create({
+        data: {
+          organizationId: org.id,
+          subdomain: slug || `site-${Date.now()}`,
+          status: "DRAFT",
+          pages: {
+            create: [
+              {
+                slug: "/",
+                title: `${input.name} Home`,
+                blocks: [],
+              },
+            ],
+          },
+        },
+        include: { pages: true, organization: true },
+      });
+
+      return { site, template: input.template };
+    }),
 
   byId: protectedProcedure
     .input(z.object({ siteId: z.string() }))
@@ -83,7 +126,7 @@ export const sitesRouter = router({
         throw new TRPCError({ code: "NOT_FOUND" });
       }
 
-      const token = `orgsites-verify-${crypto.randomUUID()}`;
+      const token = `orgsites-verify-${randomUUID()}`;
 
       // TODO(Phase 0): enqueue a `domain-verification` job (BullMQ) that
       // polls DNS for a TXT record matching `token` before flipping status

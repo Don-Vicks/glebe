@@ -11,8 +11,7 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "strictPropertyInitialization": false,
-    "sourceMap": true,
-    "incremental": true
+    "sourceMap": true
   },
   "include": ["src"]
 }

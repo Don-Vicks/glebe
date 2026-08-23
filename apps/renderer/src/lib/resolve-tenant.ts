@@ -14,7 +14,7 @@ import { headers } from "next/headers";
  */
 export async function resolveTenantSite() {
   const hostHeader = headers().get("host") ?? "";
-  const host = hostHeader.split(":")[0]; // strip port for local dev
+  const host = hostHeader.split(":")[0] ?? ""; // strip port for local dev
 
   const rootDomain = process.env.ORGSITES_ROOT_DOMAIN ?? "orgsites.app";
 

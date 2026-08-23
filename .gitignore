@@ -10,6 +10,11 @@ build/
 *.tsbuildinfo
 .turbo/
 
+# stray compiled output emitted next to sources by direct tsc runs
+packages/*/src/**/*.js
+packages/*/src/**/*.js.map
+packages/db/prisma/seed.js
+
 # env
 .env
 .env.local

@@ -15,6 +15,10 @@ export default function DashboardPage() {
   const sitesQuery = trpc.sites.mine.useQuery();
   const site = sitesQuery.data?.[0];
   const orgName = site?.organization.name ?? "Your organization";
+  const sites = sitesQuery.data ?? [];
+  const publishedCount = sites.filter((item) => item.status === "PUBLISHED").length;
+  const draftCount = sites.length - publishedCount;
+  const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "orgsites.app";
 
   return (
     <main style={shell}>
@@ -37,7 +41,19 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <section style={layout}>
+      <nav style={workspaceNav} aria-label="Workspace navigation">
+        <Link href="/dashboard" style={activeNavLink}>Overview</Link>
+        <a href="#sites" style={navLink}>Sites</a>
+        <a href="#setup" style={navLink}>Launch checklist</a>
+      </nav>
+
+      <section style={statGrid} aria-label="Workspace summary">
+        <Stat label="Total sites" value={String(sites.length)} />
+        <Stat label="Published" value={String(publishedCount)} />
+        <Stat label="Drafts" value={String(draftCount)} />
+      </section>
+
+      <section id="setup" style={layout}>
         <article style={panel}>
           <div style={panelHeader}>
             <div>
@@ -55,7 +71,7 @@ export default function DashboardPage() {
           </div>
         </article>
 
-        <article style={panel}>
+        <article id="sites" style={panel}>
           <div style={panelHeader}>
             <div>
               <div style={sectionKicker}>Sites</div>
@@ -67,23 +83,44 @@ export default function DashboardPage() {
           {sitesQuery.error && <p style={{ color: "#b91c1c" }}>Error loading sites: {sitesQuery.error.message}</p>}
 
           <div style={siteList}>
-            {sitesQuery.data?.map((site) => (
-              <article key={site.id} style={siteCard}>
-                <div style={siteLabel}>{site.subdomain}.orgsites.app</div>
-                <h3 style={siteName}>{site.organization.name}</h3>
-                <p style={siteMeta}>
-                  {site.pages.length} page{site.pages.length === 1 ? "" : "s"} · {site.status}
-                </p>
+          {sites.map((site) => (
+            <article key={site.id} style={siteCard}>
+              <div style={siteCardTop}>
+                <div style={siteLabel}>{site.subdomain}.{rootDomain}</div>
+                <span style={statusBadge(site.status)}>{site.status === "PUBLISHED" ? "Published" : "Draft"}</span>
+              </div>
+              <h3 style={siteName}>{site.organization.name}</h3>
+              <p style={siteMeta}>
+                {site.pages.length} page{site.pages.length === 1 ? "" : "s"} · {site.status === "PUBLISHED" && site.publishedAt ? `Live since ${new Date(site.publishedAt).toLocaleDateString()}` : "Not published yet"}
+              </p>
+              <div style={siteActions}>
                 <Link href={`/sites/${site.id}/pages/${site.pages[0]?.id ?? "home"}`} style={siteLink}>
-                  Open editor →
+                  Edit site
                 </Link>
-              </article>
-            ))}
+                {site.status === "PUBLISHED" && (
+                  <a href={`https://${site.customDomain ?? `${site.subdomain}.${rootDomain}`}`} target="_blank" rel="noreferrer" style={liveLink}>
+                    View live site ↗
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+          {!sitesQuery.isLoading && !sitesQuery.error && sites.length === 0 && (
+            <div style={emptyState}>
+              <strong>Your first site starts here.</strong>
+              <span>Choose a template and create a publishable home for your organization.</span>
+              <Link href="/onboarding" style={siteLink}>Create a site →</Link>
+            </div>
+          )}
           </div>
         </article>
       </section>
     </main>
   );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return <div style={statCard}><span style={statLabel}>{label}</span><strong style={statValue}>{value}</strong></div>;
 }
 
 const shell: React.CSSProperties = {
@@ -105,6 +142,13 @@ const eyebrow: React.CSSProperties = { color: "#0e6e5c", fontSize: 12, fontWeigh
 const title: React.CSSProperties = { margin: "10px 0 8px", fontSize: "clamp(32px, 4vw, 50px)", lineHeight: 1.05 };
 const subtitle: React.CSSProperties = { margin: 0, color: "#475569", maxWidth: 700, lineHeight: 1.7 };
 const actions: React.CSSProperties = { display: "flex", gap: 10, flexWrap: "wrap" };
+const workspaceNav: React.CSSProperties = { maxWidth: 1240, margin: "0 auto 18px", display: "flex", gap: 22, borderBottom: "1px solid rgba(15, 23, 42, 0.1)", paddingBottom: 12 };
+const navLink: React.CSSProperties = { color: "#64748b", textDecoration: "none", fontSize: 14, fontWeight: 700 };
+const activeNavLink: React.CSSProperties = { ...navLink, color: "#0e6e5c" };
+const statGrid: React.CSSProperties = { maxWidth: 1240, margin: "0 auto 18px", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 12 };
+const statCard: React.CSSProperties = { padding: "16px 18px", borderRadius: 18, background: "rgba(255,255,255,0.76)", border: "1px solid rgba(15, 23, 42, 0.08)" };
+const statLabel: React.CSSProperties = { display: "block", color: "#64748b", fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1 };
+const statValue: React.CSSProperties = { display: "block", marginTop: 7, color: "#1b2a4a", fontSize: 28 };
 const buttonBase: React.CSSProperties = {
   padding: "12px 16px",
   borderRadius: 999,
@@ -155,6 +199,11 @@ const siteCard: React.CSSProperties = {
   background: "white",
 };
 const siteLabel: React.CSSProperties = { color: "#0e6e5c", fontSize: 12, fontWeight: 900, letterSpacing: 1.1, textTransform: "uppercase" };
+const siteCardTop: React.CSSProperties = { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 };
+const statusBadge = (status: string): React.CSSProperties => ({ padding: "5px 9px", borderRadius: 999, background: status === "PUBLISHED" ? "#e8f5ef" : "#fff6df", color: status === "PUBLISHED" ? "#145c4a" : "#8a6410", fontSize: 11, fontWeight: 900, textTransform: "uppercase", letterSpacing: 0.7 });
 const siteName: React.CSSProperties = { margin: "10px 0 6px", fontSize: 18 };
 const siteMeta: React.CSSProperties = { margin: 0, color: "#64748b" };
-const siteLink: React.CSSProperties = { display: "inline-flex", marginTop: 14, color: "#0e6e5c", fontWeight: 800, textDecoration: "none" };
+const siteActions: React.CSSProperties = { display: "flex", flexWrap: "wrap", gap: 16, marginTop: 14 };
+const siteLink: React.CSSProperties = { display: "inline-flex", color: "#0e6e5c", fontWeight: 800, textDecoration: "none" };
+const liveLink: React.CSSProperties = { display: "inline-flex", color: "#1b2a4a", fontWeight: 800, textDecoration: "none" };
+const emptyState: React.CSSProperties = { display: "grid", gap: 8, padding: 22, borderRadius: 18, background: "#f8fafc", color: "#475569", lineHeight: 1.5 };

@@ -2,7 +2,7 @@
 
 import { Puck, type Data } from "@measured/puck";
 import "@measured/puck/puck.css";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { puckConfig } from "@/editor/puck-config";
 import { trpc } from "@/lib/trpc";
 
@@ -12,18 +12,18 @@ import { trpc } from "@/lib/trpc";
  * `pages.saveBlocks` tRPC mutation — no hand-written fetch calls, no
  * separately maintained request type.
  */
-export function PageEditorClient({ pageId }: { pageId: string }) {
+export function PageEditorClient({ pageId, siteId }: { pageId: string; siteId: string }) {
   const utils = trpc.useUtils();
+  const [publishMessage, setPublishMessage] = useState<string | null>(null);
+  const [publishError, setPublishError] = useState<string | null>(null);
   const pageQuery = trpc.pages.byId.useQuery({ pageId });
-  const saveBlocks = trpc.pages.saveBlocks.useMutation({
-    onSuccess: () => {
-      void utils.pages.byId.invalidate({ pageId });
-      void utils.pages.list.invalidate();
-    },
-  });
+  const saveBlocks = trpc.pages.saveBlocks.useMutation();
+  const publishSite = trpc.sites.publish.useMutation();
 
   const handlePublish = useCallback(
-    (data: Data) => {
+    async (data: Data) => {
+      setPublishMessage("Saving and publishing…");
+      setPublishError(null);
       // Puck's `Data` shape (content[] with type/props) maps directly onto
       // the pageBlocksSchema union in @orgsites/block-schema. In a fuller
       // implementation this mapping is a small adapter function; kept
@@ -33,9 +33,22 @@ export function PageEditorClient({ pageId }: { pageId: string }) {
         props: item.props,
       }));
 
-      saveBlocks.mutate({ pageId, blocks: blocks as never });
+      try {
+        await saveBlocks.mutateAsync({ pageId, blocks: blocks as never });
+        await publishSite.mutateAsync({ siteId });
+        await Promise.all([
+          utils.pages.byId.invalidate({ pageId }),
+          utils.pages.list.invalidate(),
+          utils.sites.mine.invalidate(),
+          utils.sites.byId.invalidate({ siteId }),
+        ]);
+        setPublishMessage("Published successfully");
+      } catch (cause) {
+        setPublishMessage(null);
+        setPublishError(cause instanceof Error ? cause.message : "Publishing failed. Try again.");
+      }
     },
-    [pageId, saveBlocks]
+    [pageId, saveBlocks, publishSite, siteId, utils]
   );
 
   if (pageQuery.isLoading) return <div className="auth-loading">Loading editor…</div>;
@@ -44,7 +57,13 @@ export function PageEditorClient({ pageId }: { pageId: string }) {
   const pageBlocks = normalizePuckContent(pageQuery.data.blocks, pageId);
 
   return (
-    <div style={{ height: "100vh" }}>
+    <div style={{ height: "100vh", position: "relative" }}>
+      {(publishMessage || publishError) && (
+        <div className={publishError ? "editor-toast editor-toast-error" : "editor-toast"} role={publishError ? "alert" : "status"}>
+          {publishError ?? publishMessage}
+          {publishError && <button type="button" onClick={() => setPublishError(null)} aria-label="Dismiss publishing error">Dismiss</button>}
+        </div>
+      )}
       <Puck
         config={puckConfig}
         data={{

@@ -35,8 +35,8 @@ export default function LandingPage() {
             a guided editor, donation-ready pages, and a production-grade backend.
           </p>
           <div style={ctaRow}>
-            <Link href="/onboarding" style={primaryButton}>
-              Open dashboard
+            <Link href="/signup" style={primaryButton}>
+              Start building
             </Link>
             <a href="#templates" style={secondaryButton}>
               Explore templates
@@ -119,8 +119,8 @@ export default function LandingPage() {
             both cleanly separated.
           </p>
         </div>
-        <Link href="/onboarding" style={primaryButton}>
-          Get started
+        <Link href="/signup" style={primaryButton}>
+          Create your workspace
         </Link>
       </section>
     </main>

@@ -1,11 +1,12 @@
 import { Injectable, BadRequestException, UnauthorizedException } from "@nestjs/common";
 import { randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
 import { prisma } from "@orgsites/db";
+import { verifySessionToken, type AuthedSession } from "@orgsites/trpc";
 
 @Injectable()
 export class AuthService {
   async validateLogin(email: string, password: string) {
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({ where: { email: normalizeEmail(email) } });
     if (!user || !user.passwordHash) {
       throw new UnauthorizedException("Invalid credentials");
     }
@@ -22,7 +23,15 @@ export class AuthService {
   }
 
   async signup(input: { email: string; password: string; organizationName: string; name?: string | null }) {
-    const existingUser = await prisma.user.findUnique({ where: { email: input.email } });
+    const email = normalizeEmail(input.email);
+    if (input.password.length < 10) {
+      throw new BadRequestException("Password must be at least 10 characters.");
+    }
+    if (input.organizationName.trim().length < 2) {
+      throw new BadRequestException("Organization name must be at least 2 characters.");
+    }
+
+    const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       throw new BadRequestException("An account with that email already exists.");
     }
@@ -38,7 +47,7 @@ export class AuthService {
 
       const user = await tx.user.create({
         data: {
-          email: input.email,
+          email,
           name: input.name ?? null,
           passwordHash,
           role: "OWNER",
@@ -59,6 +68,24 @@ export class AuthService {
       organization: result.organization,
     };
   }
+
+  async getSession(token: string | undefined): Promise<AuthedSession | null> {
+    if (!token) return null;
+    const session = verifySessionToken(token);
+    if (!session) return null;
+
+    const user = await prisma.user.findFirst({
+      where: { id: session.userId, organizationId: session.organizationId },
+      select: { id: true, organizationId: true, role: true },
+    });
+    if (!user) return null;
+
+    return { userId: user.id, organizationId: user.organizationId, role: user.role };
+  }
+}
+
+function normalizeEmail(email: string) {
+  return email.trim().toLowerCase();
 }
 
 function hashPassword(password: string) {

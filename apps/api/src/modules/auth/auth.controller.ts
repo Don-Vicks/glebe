@@ -1,17 +1,32 @@
-import { Body, Controller, Post, Res } from "@nestjs/common";
+import { Body, Controller, Get, Headers, Post, Res } from "@nestjs/common";
+import { IsEmail, IsOptional, IsString, MinLength } from "class-validator";
 import type { Response } from "express";
 import { AuthService } from "./auth.service";
 import { signSessionToken } from "@orgsites/trpc";
 
 class LoginDto {
+  @IsEmail()
   email!: string;
+
+  @IsString()
+  @MinLength(10)
   password!: string;
 }
 
 class SignupDto {
+  @IsEmail()
   email!: string;
+
+  @IsString()
+  @MinLength(10)
   password!: string;
+
+  @IsString()
+  @MinLength(2)
   organizationName!: string;
+
+  @IsOptional()
+  @IsString()
   name?: string;
 }
 
@@ -44,6 +59,26 @@ export class AuthController {
       organization: result.organization,
     };
   }
+
+  @Get("me")
+  async me(@Headers("cookie") cookieHeader?: string) {
+    const session = await this.authService.getSession(readCookie(cookieHeader, ACCESS_TOKEN_COOKIE));
+    if (!session) return { authenticated: false };
+    return { authenticated: true, session };
+  }
+
+  @Post("logout")
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie(ACCESS_TOKEN_COOKIE, { httpOnly: true, sameSite: "lax", path: "/" });
+    return { success: true };
+  }
+}
+
+function readCookie(header: string | undefined, name: string) {
+  return header
+    ?.split(";")
+    .map((part) => part.trim().split("="))
+    .find(([key]) => key === name)?.[1];
 }
 
 function setAuthCookie(res: Response, token: string) {

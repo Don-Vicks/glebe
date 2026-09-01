@@ -3,7 +3,7 @@ import { Providers } from "./providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "OrgSites Builder",
+  title: "OrgSites | Websites for mission-led teams",
   description: "Build your organization's website — no code required.",
 };
 

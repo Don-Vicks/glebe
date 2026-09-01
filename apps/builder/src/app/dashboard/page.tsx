@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { trpc } from "@/lib/trpc";
+import { LogoutButton } from "../logout-button";
 
 const checklist = [
   { label: "Complete org profile", done: true },
@@ -26,6 +27,7 @@ export default function DashboardPage() {
           </p>
         </div>
         <div style={actions}>
+          <LogoutButton />
           <Link href="/" style={ghostButton}>
             Marketing site
           </Link>

@@ -1,5 +1,6 @@
 import { createContext as createBaseContext } from "@orgsites/trpc";
 import { verifySessionToken, type AuthedSession } from "@orgsites/trpc";
+import { prisma } from "@orgsites/db";
 import type { NextRequest } from "next/server";
 
 /**
@@ -15,5 +16,12 @@ export async function createTrpcContext(req: NextRequest) {
 async function resolveSessionFromRequest(req: NextRequest): Promise<AuthedSession | null> {
   const token = req.cookies.get("orgsites_session")?.value;
   if (!token) return null;
-  return verifySessionToken(token);
+  const session = verifySessionToken(token);
+  if (!session) return null;
+  const user = await prisma.user.findFirst({
+    where: { id: session.userId, organizationId: session.organizationId },
+    select: { id: true, organizationId: true, role: true },
+  });
+  if (!user) return null;
+  return { userId: user.id, organizationId: user.organizationId, role: user.role };
 }

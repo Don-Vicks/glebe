@@ -12,7 +12,11 @@ function base64UrlDecode(input: string) {
 }
 
 function getSigningSecret() {
-  return process.env.ORGSITES_AUTH_SECRET ?? "dev-only-auth-secret-change-me";
+  const secret = process.env.ORGSITES_AUTH_SECRET;
+  if (!secret && process.env.NODE_ENV === "production") {
+    throw new Error("ORGSITES_AUTH_SECRET must be configured in production.");
+  }
+  return secret ?? "dev-only-auth-secret-change-me";
 }
 
 export function signSessionToken(session: AuthedSession, expiresInSeconds: number) {
@@ -59,4 +63,3 @@ export function verifySessionToken(token: string): AuthedSession | null {
     return null;
   }
 }
-

@@ -21,6 +21,15 @@ export const pagesRouter = router({
       });
     }),
 
+  byId: protectedProcedure
+    .input(z.object({ pageId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const page = await ctx.db.page.findUnique({ where: { id: input.pageId } });
+      if (!page) throw new TRPCError({ code: "NOT_FOUND" });
+      await assertSiteInOrg(ctx, page.siteId);
+      return page;
+    }),
+
   bySlug: protectedProcedure
     .input(z.object({ siteId: z.string(), slug: z.string() }))
     .query(async ({ ctx, input }) => {

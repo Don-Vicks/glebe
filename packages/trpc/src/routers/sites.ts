@@ -13,6 +13,7 @@ export const sitesRouter = router({
     });
   }),
 
+  /** Create a site + seeded homepage; subdomain derives from the name. */
   create: editorProcedure
     .input(
       z.object({

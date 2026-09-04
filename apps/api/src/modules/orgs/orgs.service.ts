@@ -3,6 +3,7 @@ import { prisma, OrgType } from "@orgsites/db";
 
 @Injectable()
 export class OrgsService {
+  /** Provision a new organization. */
   async create(input: { name: string; type: OrgType }) {
     return prisma.organization.create({ data: input });
   }

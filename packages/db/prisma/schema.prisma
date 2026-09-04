@@ -103,8 +103,8 @@ model Site {
   status         SiteStatus @default(DRAFT)
 
   // Global brand controls (§5.2)
-  themeColors    Json       @default("{\"primary\":\"#0E6E5C\",\"secondary\":\"#1B2A4A\",\"accent\":\"#C7962E\"}")
-  themeFonts     Json       @default("{\"heading\":\"Inter\",\"body\":\"Inter\"}")
+  themeColors    Json       @default("{\"primary\":\"#4338CA\",\"secondary\":\"#1C1917\",\"accent\":\"#F59E0B\"}")
+  themeFonts     Json       @default("{\"heading\":\"Plus Jakarta Sans\",\"body\":\"Plus Jakarta Sans\"}")
   logoUrl        String?
 
   createdAt      DateTime   @default(now())

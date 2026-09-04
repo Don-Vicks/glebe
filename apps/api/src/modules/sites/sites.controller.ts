@@ -10,6 +10,7 @@ export class SitesController {
   constructor(private readonly sitesService: SitesService) {}
 
   @Post(":id/publish")
+  /** Publish API surface — enqueues the edge rebuild for the site. */
   publish(@Param("id") id: string) {
     return this.sitesService.publish(id);
   }

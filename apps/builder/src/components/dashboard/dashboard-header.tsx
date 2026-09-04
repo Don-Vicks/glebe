@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Globe, Plus, LogOut, LayoutGrid, Search, ExternalLink, ShieldCheck, ChevronDown, User, Sparkles } from "lucide-react";
+import { Globe, Plus, LogOut, LayoutGrid, Building2, ChevronDown, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,44 +17,43 @@ export function DashboardHeader({ orgName }: { orgName: string }) {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/85 backdrop-blur-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
-        {/* Left: Workspace selector */}
+        {/* Left: Brand + workspace */}
         <div className="flex items-center gap-3">
           <Link href="/dashboard" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-indigo-700 to-indigo-900 flex items-center justify-center text-white shadow-md">
-              <Globe className="w-5 h-5 text-indigo-200" />
+            <div className="w-8 h-8 rounded-[10px] bg-gradient-to-br from-indigo-soft to-indigo-deep flex items-center justify-center text-white shadow-md shadow-primary/25">
+              <Globe className="w-4 h-4" />
             </div>
+            <span className="hidden sm:block font-bold tracking-tight text-[17px] text-foreground">
+              OrgSites
+            </span>
           </Link>
 
-          <div className="h-6 w-px bg-border/80 hidden sm:block" />
+          <div className="h-6 w-px bg-border hidden sm:block" />
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className="flex items-center gap-2 px-3 py-1.5 rounded-xl hover:bg-muted text-left transition-colors"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xl hover:bg-muted text-left transition-colors duration-150"
               >
-                <div className="flex flex-col">
-                  <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                    Workspace
-                  </span>
-                  <span className="text-sm font-extrabold text-slate-900 max-w-[160px] sm:max-w-[220px] truncate">
-                    {orgName}
-                  </span>
-                </div>
-                <ChevronDown className="w-4 h-4 text-slate-400" />
+                <Building2 className="w-4 h-4 text-muted-foreground shrink-0" />
+                <span className="text-sm font-semibold text-foreground max-w-[140px] sm:max-w-[220px] truncate">
+                  {orgName}
+                </span>
+                <ChevronDown className="w-4 h-4 text-muted-foreground" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-56">
-              <DropdownMenuLabel>Current Workspace</DropdownMenuLabel>
-              <DropdownMenuItem className="font-semibold text-indigo-700">
-                <ShieldCheck className="w-4 h-4 mr-2" />
+            <DropdownMenuContent align="start" className="w-60">
+              <DropdownMenuLabel>Workspace</DropdownMenuLabel>
+              <DropdownMenuItem className="font-semibold text-primary">
+                <Building2 className="w-4 h-4 mr-2" />
                 <span>{orgName}</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/onboarding">
                   <Plus className="w-4 h-4 mr-2" />
-                  <span>Create New Site</span>
+                  <span>Create new site</span>
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -63,14 +62,7 @@ export function DashboardHeader({ orgName }: { orgName: string }) {
 
         {/* Right: Actions */}
         <div className="flex items-center gap-2.5">
-          <Button variant="ghost" size="sm" asChild className="hidden md:inline-flex text-xs font-bold">
-            <Link href="/" target="_blank">
-              <span>View Marketing</span>
-              <ExternalLink className="w-3.5 h-3.5 ml-1" />
-            </Link>
-          </Button>
-
-          <Button variant="emerald" size="sm" asChild className="gap-1.5 shadow-md">
+          <Button size="sm" asChild>
             <Link href="/onboarding">
               <Plus className="w-4 h-4" />
               <span className="hidden sm:inline">Create site</span>
@@ -78,14 +70,14 @@ export function DashboardHeader({ orgName }: { orgName: string }) {
             </Link>
           </Button>
 
-          <div className="h-6 w-px bg-border/80 hidden sm:block" />
+          <div className="h-6 w-px bg-border hidden sm:block" />
 
           {/* User / Sign out dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center text-slate-700 font-bold text-xs transition-colors"
+                className="w-9 h-9 rounded-full bg-muted hover:bg-muted-foreground/15 border border-border flex items-center justify-center text-muted-foreground transition-colors duration-150"
                 aria-label="User menu"
               >
                 <User className="w-4 h-4" />
@@ -96,7 +88,7 @@ export function DashboardHeader({ orgName }: { orgName: string }) {
               <DropdownMenuItem asChild>
                 <Link href="/dashboard">
                   <LayoutGrid className="w-4 h-4 mr-2" />
-                  <span>Dashboard Overview</span>
+                  <span>Dashboard overview</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />

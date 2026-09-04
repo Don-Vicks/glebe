@@ -41,7 +41,7 @@ export class AuthController {
   @Post("login")
   async login(@Body() body: LoginDto, @Res({ passthrough: true }) res: Response) {
     const session = await this.authService.validateLogin(body.email, body.password);
-    const token = signSessionToken(session, 60 * 60 * 24 * 7);
+    const token = signSessionToken(session, SESSION_TTL_SECONDS);
     setAuthCookie(res, token);
     return { userId: session.userId, organizationId: session.organizationId, role: session.role };
   }

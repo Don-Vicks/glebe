@@ -86,6 +86,7 @@ export class AuthController {
   }
 }
 
+/** Parse a cookie header for one cookie's value; undefined when absent. */
 function readCookie(header: string | undefined, name: string) {
   return header
     ?.split(";")

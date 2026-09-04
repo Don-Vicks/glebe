@@ -18,6 +18,7 @@ export interface TrpcContext {
   session: AuthedSession | null;
 }
 
+/** Build per-request context. Null session == unauthenticated request. */
 export function createContext(session: AuthedSession | null): TrpcContext {
   return {
     db: prisma,

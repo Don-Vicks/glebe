@@ -15,6 +15,7 @@ export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
   @Post("charge")
+  /** Create a charge against the configured provider. */
   charge(@Body() body: ChargeDto) {
     return this.paymentsService.initiateCharge(
       body.siteId,

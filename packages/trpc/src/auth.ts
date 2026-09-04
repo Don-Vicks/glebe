@@ -24,6 +24,7 @@ function getSigningSecret() {
   return secret ?? "dev-only-auth-secret-change-me";
 }
 
+/** Mint a signed session token for the given expiry window (seconds). */
 export function signSessionToken(session: AuthedSession, expiresInSeconds: number) {
   const header = { alg: "HS256", typ: "JWT" };
   const payload = {

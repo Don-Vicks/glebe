@@ -68,6 +68,7 @@ export const fontFamily = {
   sans: "'Plus Jakarta Sans', system-ui, sans-serif",
 } as const;
 
+/** Border-radius scale (brand.md §6), in px. */
 export const radii = {
   sm: 6,
   md: 10,

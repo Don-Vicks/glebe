@@ -94,6 +94,7 @@ function readCookie(header: string | undefined, name: string) {
     .find(([key]) => key === name)?.[1];
 }
 
+/** Persist the session cookie. Secure flag only under HTTPS (production). */
 function setAuthCookie(res: Response, token: string) {
   res.cookie(ACCESS_TOKEN_COOKIE, token, {
     httpOnly: true,

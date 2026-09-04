@@ -91,6 +91,7 @@ model AuditLog {
 // Sites, Pages, Blocks
 // ---------------------------------------------------------------------------
 
+/** Site lifecycle: DRAFT until the owner publishes. */
 enum SiteStatus {
   DRAFT
   PUBLISHED

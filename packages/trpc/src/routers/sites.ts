@@ -66,6 +66,7 @@ export const sitesRouter = router({
       return site;
     }),
 
+  /** Set brand colors / logo for a site. */
   updateTheme: editorProcedure
     .input(
       z.object({

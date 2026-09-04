@@ -269,6 +269,7 @@ model Post {
 // Custom domains (§8.5 publishing pipeline)
 // ---------------------------------------------------------------------------
 
+/** Custom-domain verification state (spec §8.5). */
 enum DomainStatus {
   PENDING
   VERIFYING

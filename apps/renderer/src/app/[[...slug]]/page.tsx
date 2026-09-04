@@ -10,10 +10,10 @@ import type { Metadata } from "next";
 // (spec §8.5.3), rather than on a fixed timer.
 export const revalidate = false;
 
-type Props = { params: { slug?: string[] } };
+type Props = { params: { slug?: string[] }; searchParams?: { site?: string } };
 
-async function getPageData(params: Props["params"]) {
-  const site = await resolveTenantSite();
+async function getPageData(params: Props["params"], searchParams?: Props["searchParams"]) {
+  const site = await resolveTenantSite(searchParams);
   if (!site || site.status !== "PUBLISHED") return null;
 
   const slug = "/" + (params.slug?.join("/") ?? "");
@@ -26,8 +26,8 @@ async function getPageData(params: Props["params"]) {
   return { site, page, blocks: parsedBlocks.success ? parsedBlocks.data : [] };
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const data = await getPageData(params);
+export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+  const data = await getPageData(params, searchParams);
   if (!data) return {};
   const seo = data.page.seoMeta as { title?: string; description?: string } | null;
   return {
@@ -36,8 +36,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function TenantPage({ params }: Props) {
-  const data = await getPageData(params);
+export default async function TenantPage({ params, searchParams }: Props) {
+  const data = await getPageData(params, searchParams);
   if (!data) notFound();
 
   const { site, blocks } = data;
@@ -47,9 +47,9 @@ export default async function TenantPage({ params }: Props) {
     <div
       style={
         {
-          "--org-primary": theme?.primary ?? "#0E6E5C",
-          "--org-secondary": theme?.secondary ?? "#1B2A4A",
-          "--org-accent": theme?.accent ?? "#C7962E",
+          "--site-primary": theme?.primary ?? "#4338CA",
+          "--site-secondary": theme?.secondary ?? "#1C1917",
+          "--site-accent": theme?.accent ?? "#F59E0B",
         } as React.CSSProperties
       }
     >

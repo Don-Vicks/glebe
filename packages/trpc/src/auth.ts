@@ -10,6 +10,7 @@ function base64UrlEncode(input: Buffer | string) {
   return Buffer.from(input).toString("base64url");
 }
 
+/** Decode a base64url string back to raw bytes. */
 function base64UrlDecode(input: string) {
   return Buffer.from(input, "base64url");
 }

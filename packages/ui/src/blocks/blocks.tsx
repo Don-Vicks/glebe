@@ -13,8 +13,8 @@ import { card, section, heading, text, bg } from "./styles";
  * OrgSites brand defaults.
  */
 
-const heroGradient = `bg-[linear-gradient(135deg,var(--site-secondary,#1C1917),var(--site-primary,#4338CA))]`;
-const donateGradient = `bg-[linear-gradient(135deg,var(--site-primary,#4338CA),#134E4A)]`;
+const heroGradient = `bg-[linear-gradient(135deg,var(--site-secondary,#1B2A4A),var(--site-primary,#0E6E5C))]`;
+const donateGradient = `bg-[linear-gradient(135deg,var(--site-primary,#0E6E5C),#0A5548)]`;
 const glassPanel = [
   "bg-white/[0.04]",
   "backdrop-blur-[12px]",
@@ -42,7 +42,7 @@ export function HeroBlock({
       className={`${section} ${heroGradient} text-center text-white`}
     >
       <div className={`${glassPanel} max-w-[920px] mx-auto`}>
-        <h1 className="text-[48px] leading-[1.05] font-extrabold mb-4">{title}</h1>
+        <h1 className="font-display text-[48px] leading-[1.05] font-medium mb-4">{title}</h1>
         {subheading && (
           <p className="text-[18px] max-w-[680px] mx-auto mb-7 opacity-90">
             {subheading}
@@ -51,7 +51,7 @@ export function HeroBlock({
         {ctaLabel && (
           <a
             href={ctaHref || "#"}
-            className={`${bg.accent} inline-block px-7 py-[13px] rounded-full font-bold text-[#1C1917] no-underline`}
+            className={`${bg.accent} inline-block px-7 py-[13px] rounded-md font-bold text-[#2A2109] no-underline`}
           >
             {ctaLabel}
           </a>
@@ -65,7 +65,7 @@ export function MissionBlock({ heading: title, body }: { heading: string; body: 
   return (
     <section className={`${section} max-w-[760px] mx-auto`}>
       <h2 className={heading}>{title}</h2>
-      <p className="text-[17px] leading-[1.7] text-[#334155]">{body}</p>
+      <p className="text-[17px] leading-[1.7] text-[#3D4B5C]">{body}</p>
     </section>
   );
 }
@@ -88,7 +88,7 @@ export function ProgramsGridBlock({
           {programs.map((program, index) => (
             <Card key={index}>
               <div className="p-6">
-                <h3 className="text-[18px] font-bold mb-2">{program.title}</h3>
+                <h3 className="font-display text-[20px] font-medium mb-2">{program.title}</h3>
                 <p className="text-[#475569] leading-[1.6]">{program.description}</p>
               </div>
             </Card>
@@ -114,7 +114,7 @@ export function ImpactStatsBlock({
           {stats.map((stat, i) => (
             <Card key={i}>
               <div className="p-6">
-                <div className={`text-[36px] font-black ${text.primary}`}>{stat.value}</div>
+                <div className={`font-display text-[36px] font-medium ${text.primary}`}>{stat.value}</div>
                 <div className={`mt-1 ${text.muted}`}>{stat.label}</div>
               </div>
             </Card>
@@ -140,7 +140,7 @@ export function TeamBlock({
           {members.map((member, i) => (
             <Card key={i}>
               <div className="p-6">
-                <h3 className="text-[18px] font-bold">{member.name}</h3>
+                <h3 className="font-display text-[20px] font-medium">{member.name}</h3>
                 {member.role && <p className={`mt-1.5 ${text.primary}`}>{member.role}</p>}
               </div>
             </Card>
@@ -166,7 +166,7 @@ export function TestimonialsBlock({
           {quotes.map((quote, i) => (
             <blockquote
               key={i}
-              className={`${card} p-6 text-[17px] leading-[1.7] text-[#334155] italic`}
+              className={`${card} p-6 text-[17px] leading-[1.7] text-[#3D4B5C] italic`}
             >
               <p>{quote.quote}</p>
               {quote.attribution && (
@@ -198,11 +198,11 @@ export function DonateCtaBlock({
       className={`${section} ${donateGradient} text-center text-white`}
     >
       <div className={`${glassPanel} max-w-[760px] mx-auto`}>
-        <h2 className="text-[28px] font-extrabold mb-2">{title}</h2>
+        <h2 className="font-display text-[28px] font-medium mb-2">{title}</h2>
         {body && <p className="mb-5 opacity-90">{body}</p>}
         <button
           type="button"
-          className={`${bg.accent} px-7 py-3 rounded-full font-bold text-[#1C1917] border-0 cursor-pointer`}
+          className={`${bg.accent} px-7 py-3 rounded-md font-bold text-[#2A2109] border-0 cursor-pointer`}
         >
           Donate {allowRecurring ? "once or monthly" : "now"}
           {allowCustomAmount ? "" : " (preset amounts)"}
@@ -225,7 +225,7 @@ export function EventListBlock({ heading: title }: { heading?: string }) {
   );
 }
 
-const inputClass = "p-3 rounded-[12px] border border-[#E7E5E4] font-sans text-[14px] w-full";
+const inputClass = "p-3 rounded-[12px] border border-[#DCD4C2] font-sans text-[14px] w-full";
 
 export function ContactFormBlock({
   heading: title,

@@ -17,11 +17,11 @@ const badgeVariants = cva(
         published:
           "border-emerald-200 bg-emerald-50 text-emerald-700",
         draft:
-          "border-amber-200 bg-amber-50 text-amber-700",
+          "border-gold/30 bg-gold/10 text-gold-deep",
         gold:
-          "border-amber-200 bg-amber-50 text-amber-800",
+          "border-gold/30 bg-gold/10 text-gold-deep",
         primary:
-          "border-indigo-200 bg-indigo-50 text-indigo-700",
+          "border-teal/20 bg-teal/10 text-teal-deep",
       },
     },
     defaultVariants: {

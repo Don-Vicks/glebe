@@ -18,27 +18,27 @@ const theme = (prop: string, fallback: string) => `var(--${prop},${fallback})`;
 
 /** Theme-aware text colors. */
 export const text = {
-  primary: `text-[color:${theme("site-primary", "#4338CA")}]`,
-  secondary: `text-[color:${theme("site-secondary", "#1C1917")}]`,
-  muted: "text-[#78716C]",
+  primary: `text-[color:${theme("site-primary", "#0E6E5C")}]`,
+  secondary: `text-[color:${theme("site-secondary", "#1B2A4A")}]`,
+  muted: "text-[#3D4B5C]",
 };
 
 /** Theme-aware background colors. */
 export const bg = {
-  primary: `bg-[color:${theme("site-primary", "#4338CA")}]`,
-  accent: `bg-[color:${theme("site-accent", "#F59E0B")}]`,
-  ink: `bg-[color:${theme("site-secondary", "#1C1917")}]`,
-  surface: "bg-[#F5F5F4]",
+  primary: `bg-[color:${theme("site-primary", "#0E6E5C")}]`,
+  accent: `bg-[color:${theme("site-accent", "#B98A2E")}]`,
+  ink: `bg-[color:${theme("site-secondary", "#1B2A4A")}]`,
+  surface: "bg-[#F1ECE0]",
   white: "bg-white",
 };
 
 /** Shared card surface used by grids (programs, team, testimonials, stats). */
 export const card = [
   "bg-white",
-  "rounded-[20px]",
+  "rounded-[14px]",
   "border",
-  "border-[#E7E5E4]",
-  "shadow-[0_20px_60px_rgba(28,25,23,0.10)]",
+  "border-[#DCD4C2]",
+  "shadow-[0_20px_60px_rgba(22,35,58,0.10)]",
   "overflow-hidden",
   "font-sans",
 ].join(" ");
@@ -46,10 +46,11 @@ export const card = [
 /** Section container for consistent vertical rhythm + font. */
 export const section = ["py-14", "px-8", "font-sans"].join(" ");
 
-/** Section heading (H2). */
+/** Section heading (H2) — Fraunces display face. */
 export const heading = [
-  "text-[30px]",
-  "font-extrabold",
+  "font-display",
+  "text-[32px]",
+  "font-medium",
   "mb-6",
-  `text-[color:${theme("site-secondary", "#1C1917")}]`,
+  `text-[color:${theme("site-secondary", "#1B2A4A")}]`,
 ].join(" ");

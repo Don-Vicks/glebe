@@ -4,18 +4,18 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 /**
- * OrgSites buttons — variants follow brand.md §7: default (indigo),
- * accent (amber, donate), secondary (charcoal), outline, ghost, destructive.
+ * OrgSites buttons — variants follow brand.md §7: default (teal),
+ * accent (gold, donate), secondary (navy), outline, ghost, destructive.
  */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-semibold ring-offset-background transition-[background-color,color,box-shadow,filter,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:translate-y-px",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-[background-color,color,box-shadow,filter,transform] duration-150 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:translate-y-px",
   {
     variants: {
       variant: {
         default:
-          "bg-gradient-to-r from-indigo-700 to-indigo-600 text-white shadow-glow-primary hover:brightness-[1.07]",
+          "bg-teal text-white shadow-glow-primary hover:bg-teal-deep",
         accent:
-          "bg-gradient-to-r from-amber-400 to-amber-500 text-ink shadow-glow-accent hover:brightness-[1.06]",
+          "bg-gold text-[#2A2109] shadow-glow-accent hover:brightness-[1.06]",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/90",
         outline:

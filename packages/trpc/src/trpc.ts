@@ -48,4 +48,5 @@ const requiresEditAccess = middleware(({ ctx, next }) => {
   return next({ ctx: { ...ctx, session: ctx.session } });
 });
 
+/** Owner/Editor-only procedure (writes). */
 export const editorProcedure = t.procedure.use(requiresEditAccess);

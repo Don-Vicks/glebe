@@ -2,6 +2,7 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import type { TrpcContext } from "./context";
 
+/** Root instance; superjson handles Date/Map/BigInt across the wire. */
 const t = initTRPC.context<TrpcContext>().create({
   transformer: superjson,
 });

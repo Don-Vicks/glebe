@@ -77,6 +77,7 @@ model AuditLog {
   organizationId String
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   userId         String?
+  // Logged actions follow an "<entity>.<verb>" convention.
   action         String // e.g. "page.publish", "domain.connect"
   targetType     String? // e.g. "Page", "Site"
   targetId       String?

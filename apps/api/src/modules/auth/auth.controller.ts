@@ -70,7 +70,7 @@ export class AuthController {
 
     if (token && res) {
       const remaining = sessionTokenExpirySeconds(token);
-      if (remaining !== null && remaining < 60 * 60 * 48) {
+      if (remaining !== null && remaining < RENEWAL_THRESHOLD_SECONDS) {
         const fresh = signSessionToken(session, 60 * 60 * 24 * 7);
         setAuthCookie(res, fresh);
       }

@@ -32,6 +32,7 @@ export const pagesRouter = router({
       return page;
     }),
 
+  /** Single page by (siteId, slug). */
   bySlug: protectedProcedure
     .input(z.object({ siteId: z.string(), slug: z.string() }))
     .query(async ({ ctx, input }) => {

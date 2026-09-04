@@ -3,6 +3,7 @@ import { prisma } from "@orgsites/db";
 import { pageBlocksSchema } from "@orgsites/block-schema";
 import { resolveTenantSite } from "@/lib/resolve-tenant";
 import { BlockRenderer } from "@/blocks/registry";
+import { OrgSitesBrandBar } from "@/components/brand-bar";
 import type { Metadata } from "next";
 
 // On-demand ISR: pages revalidate when a publish event triggers
@@ -44,18 +45,23 @@ export default async function TenantPage({ params, searchParams }: Props) {
   const theme = site.themeColors as { primary?: string; secondary?: string; accent?: string };
 
   return (
-    <div
-      style={
-        {
-          "--site-primary": theme?.primary ?? "#0E6E5C",
-          "--site-secondary": theme?.secondary ?? "#1B2A4A",
-          "--site-accent": theme?.accent ?? "#B98A2E",
-        } as React.CSSProperties
-      }
-    >
-      {blocks.map((block, i) => (
-        <BlockRenderer key={i} block={block} />
-      ))}
+    <div className="min-h-screen flex flex-col">
+      {/* Theme wrapper: per-site colors/fonts apply only to the org's content. */}
+      <div
+        className="flex-1"
+        style={
+          {
+            "--site-primary": theme?.primary ?? "#0E6E5C",
+            "--site-secondary": theme?.secondary ?? "#1B2A4A",
+            "--site-accent": theme?.accent ?? "#B98A2E",
+          } as React.CSSProperties
+        }
+      >
+        {blocks.map((block, i) => (
+          <BlockRenderer key={i} block={block} />
+        ))}
+      </div>
+      <OrgSitesBrandBar />
     </div>
   );
 }

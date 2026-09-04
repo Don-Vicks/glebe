@@ -1,76 +1,84 @@
-/* OrgSites brand surface — tokens below mirror brand.md. */
+/* ============================================================
+   ORGSITES DESIGN SYSTEM
+   Every color, type step, and spacing unit used across the
+   product traces back to the variables below. Grounded in the
+   product's own default org theme (Site.themeColors in
+   packages/db/prisma/schema.prisma): teal / navy / gold are
+   literally what a new org's site ships with. The landing page
+   uses the same palette on purpose.
+   ============================================================ */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 60 20% 98%;
-    --foreground: 24 10% 10%;
+    --background: 43 49% 96%;      /* paper #FAF7F0 */
+    --foreground: 218 45% 16%;     /* ink    #16233A */
 
     --card: 0 0% 100%;
-    --card-foreground: 24 10% 10%;
+    --card-foreground: 218 45% 16%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 24 10% 10%;
+    --popover-foreground: 218 45% 16%;
 
-    /* OrgSites indigo primary #4338CA -> 245 71% 51% */
-    --primary: 245 71% 51%;
+    /* OrgSites teal primary #0E6E5C -> 169 77% 24% */
+    --primary: 169 77% 24%;
     --primary-foreground: 0 0% 100%;
 
-    /* OrgSites warm charcoal secondary #1C1917 -> 24 10% 10% */
-    --secondary: 24 10% 10%;
-    --secondary-foreground: 60 20% 98%;
+    /* OrgSites navy secondary #1B2A4A -> 220 46% 20% */
+    --secondary: 220 46% 20%;
+    --secondary-foreground: 43 49% 96%;
 
-    --muted: 20 8% 95%;
-    --muted-foreground: 24 6% 45%;
+    --muted: 42 38% 91%;           /* paper-dim #F1ECE0 */
+    --muted-foreground: 213 20% 30%; /* ink-soft #3D4B5C */
 
-    /* OrgSites amber accent #F59E0B -> 38 92% 50% */
-    --accent: 38 92% 50%;
-    --accent-foreground: 24 10% 10%;
+    /* OrgSites gold accent #B98A2E -> 40 60% 45% */
+    --accent: 40 60% 45%;
+    --accent-foreground: 43 30% 8%; /* #2A2109, dark sand on gold */
 
     --destructive: 349 79% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 30 10% 90%;
-    --input: 30 10% 90%;
-    --ring: 245 71% 51%;
+    --border: 41 27% 81%;          /* line #DCD4C2 */
+    --input: 41 27% 81%;
+    --ring: 169 77% 30%;
 
     --radius: 0.875rem;
 
-    --org-primary: #4338ca;
-    --org-secondary: #1c1917;
-    --org-accent: #f59e0b;
+    --org-primary: #0e6e5c;
+    --org-secondary: #1b2a4a;
+    --org-accent: #b98a2e;
   }
 
   .dark {
-    --background: 24 10% 4%;
-    --foreground: 60 20% 98%;
+    --background: 220 38% 8%;
+    --foreground: 43 50% 95%;
 
-    --card: 24 10% 10%;
-    --card-foreground: 60 20% 98%;
+    --card: 220 38% 10%;
+    --card-foreground: 43 50% 95%;
 
-    --popover: 24 10% 10%;
-    --popover-foreground: 60 20% 98%;
+    --popover: 220 38% 10%;
+    --popover-foreground: 43 50% 95%;
 
-    --primary: 239 84% 67%;
-    --primary-foreground: 24 10% 4%;
+    --primary: 169 70% 45%;
+    --primary-foreground: 220 38% 8%;
 
-    --secondary: 24 12% 14%;
-    --secondary-foreground: 60 20% 98%;
+    --secondary: 220 40% 14%;
+    --secondary-foreground: 43 50% 95%;
 
-    --muted: 30 8% 15%;
-    --muted-foreground: 30 5% 63%;
+    --muted: 219 30% 15%;
+    --muted-foreground: 43 12% 68%;
 
-    --accent: 45 91% 58%;
-    --accent-foreground: 24 10% 4%;
+    --accent: 40 62% 50%;
+    --accent-foreground: 220 38% 8%;
 
     --destructive: 349 79% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 30 5% 27%;
-    --input: 30 5% 27%;
-    --ring: 239 84% 67%;
+    --border: 220 20% 26%;
+    --input: 220 20% 26%;
+    --ring: 169 70% 45%;
   }
 }
 
@@ -79,10 +87,748 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     font-family: var(--font-sans), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), Georgia, serif;
+    font-weight: 500;
+  }
+}
+
+/* ============================================================
+   LANDING PAGE — port of the authored spec (orgsites-landing.md).
+   The product demonstrates its own output rather than describing it:
+   the hero is structured like an org homepage, and the anatomy
+   section shows real published page blocks.
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 3px;
+}
+
+.wrap {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 32px;
+}
+@media (max-width: 640px) {
+  .wrap {
+    padding: 0 20px;
+  }
+}
+
+/* ---------- Nav ---------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(250, 247, 240, 0.86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+.logo {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.375rem;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.nav-links {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.nav-links a {
+  text-decoration: none;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+.nav-links a:hover {
+  color: var(--teal-deep);
+}
+.nav-cta {
+  background: var(--ink);
+  color: var(--paper) !important;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600 !important;
+}
+.nav-cta:hover {
+  background: var(--teal-deep) !important;
+}
+
+@media (max-width: 860px) {
+  .nav-links {
+    display: none;
+  }
+}
+
+/* ============================================================
+   HERO — a live-looking mock of an org site built from real
+   product content (block types from the spec), not a stock
+   screenshot or abstract gradient blob.
+   ============================================================ */
+.hero {
+  padding: 88px 0 0;
+  position: relative;
+  overflow: hidden;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 64px;
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+.eyebrow {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: var(--teal-deep);
+  font-weight: 600;
+  margin-bottom: 22px;
+}
+.hero h1 {
+  font-size: var(--step-5);
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  max-width: 14ch;
+  color: var(--ink);
+}
+.hero-sub {
+  margin-top: 28px;
+  font-size: var(--step-2);
+  color: var(--ink-soft);
+  max-width: 46ch;
+  line-height: 1.55;
+}
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 28px;
+  border-radius: 7px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn-primary {
+  background: var(--teal);
+  color: var(--white);
+}
+.btn-primary:hover {
+  background: var(--teal-deep);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.btn-ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.hero-note {
+  margin-top: 18px;
+  font-size: 0.875rem;
+  color: #7a7565;
+}
+
+.site-mock {
+  background: var(--white);
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  box-shadow: 0 30px 60px -30px rgba(22, 35, 58, 0.25);
+  overflow: hidden;
+}
+.site-mock-chrome {
+  display: flex;
+  gap: 6px;
+  padding: 12px 16px;
+  background: var(--paper-dim);
+  border-bottom: 1px solid var(--line);
+}
+.site-mock-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #d8cfc0;
+}
+.site-mock-hero {
+  background: linear-gradient(160deg, var(--navy), #223357);
+  color: var(--paper);
+  padding: 34px 28px 30px;
+}
+.site-mock-hero .mock-kicker {
+  font-size: 0.7rem;
+  color: #9fb4ce;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.site-mock-hero h3 {
+  color: var(--white);
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  max-width: 22ch;
+}
+.site-mock-hero p {
+  color: #c4d0e0;
+  font-size: 0.85rem;
+  max-width: 30ch;
+  line-height: 1.5;
+}
+.mock-btn {
+  display: inline-block;
+  margin-top: 16px;
+  background: var(--gold);
+  color: #2a2109;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.site-mock-body {
+  padding: 26px 28px 30px;
+}
+.mock-stats {
+  display: flex;
+  gap: 22px;
+  padding-top: 18px;
+  margin-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.mock-stat b {
+  display: block;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.4rem;
+  color: var(--teal-deep);
+}
+.mock-stat span {
+  font-size: 0.72rem;
+  color: #8a8574;
+}
+
+/* ---------- Trust strip ---------- */
+.trust-strip {
+  padding: 56px 0 60px;
+  border-bottom: 1px solid var(--line);
+}
+.trust-label {
+  font-size: 0.85rem;
+  color: #8a8574;
+  margin-bottom: 26px;
+}
+.trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px 52px;
+  align-items: center;
+}
+.trust-item {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.15rem;
+  color: #9c9683;
+  white-space: nowrap;
+}
+
+/* ============================================================
+   SECTION: The problem — an editorial statement, two-column:
+   short framing + a longer paragraph, the way a report or
+   memo would present a problem statement.
+   ============================================================ */
+.section {
+  padding: 108px 0;
+}
+.section-tight {
+  padding: 88px 0;
+}
+.split {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 64px;
+}
+@media (max-width: 860px) {
+  .split {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+.section-label {
+  font-size: 0.9rem;
+  color: var(--teal-deep);
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.section h2 {
+  font-size: var(--step-4);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  max-width: 16ch;
+  color: var(--ink);
+}
+.section-body p {
+  font-size: var(--step-2);
+  color: var(--ink-soft);
+  max-width: var(--measure);
+  line-height: 1.6;
+}
+.section-body p + p {
+  margin-top: 20px;
+}
+
+.problem-list {
+  margin-top: 36px;
+  display: grid;
+  gap: 22px;
+}
+.problem-item {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 14px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+.problem-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.problem-item svg {
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+.problem-item strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.problem-item p {
+  margin-top: 4px;
+  font-size: 0.98rem;
+  color: var(--ink-soft);
+}
+
+/* ============================================================
+   SECTION: What OrgSites does — the actual page anatomy of an
+   org's published site (Homepage / Programs / Impact / Donate /
+   Get involved), each as a labeled real-content example.
+   ============================================================ */
+.anatomy {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 116px 0;
+}
+.anatomy .section-label {
+  color: #7fc3b0;
+}
+.anatomy h2 {
+  color: var(--paper);
+  font-size: var(--step-4);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  max-width: 16ch;
+}
+.anatomy-intro {
+  max-width: 52ch;
+  font-size: var(--step-2);
+  color: #c7ccd6;
+  margin-top: 22px;
+}
+.anatomy-rows {
+  margin-top: 64px;
+  display: grid;
+  gap: 1px;
+  background: var(--line-dark);
+  border: 1px solid var(--line-dark);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.anatomy-row {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  background: var(--ink);
+}
+@media (max-width: 780px) {
+  .anatomy-row {
+    grid-template-columns: 1fr;
+  }
+}
+.anatomy-row-label {
+  padding: 34px 32px;
+  border-right: 1px solid var(--line-dark);
+}
+@media (max-width: 780px) {
+  .anatomy-row-label {
+    border-right: none;
+    border-bottom: 1px solid var(--line-dark);
+  }
+}
+.anatomy-row-label .tag {
+  font-size: 0.75rem;
+  color: #8fa0b8;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.anatomy-row-label h3 {
+  color: var(--paper);
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+.anatomy-row-content {
+  padding: 34px 36px;
+  display: flex;
+  align-items: center;
+}
+.anatomy-row-content p {
+  color: #c7ccd6;
+  font-size: 1rem;
+  line-height: 1.6;
+  max-width: 58ch;
+}
+.anatomy-row-content .example {
+  display: inline;
+  color: var(--paper);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 0.92em;
+}
+
+/* ---------- Audience / who it's for ---------- */
+.audience {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 56px;
+}
+@media (max-width: 900px) {
+  .audience {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 540px) {
+  .audience {
+    grid-template-columns: 1fr;
+  }
+}
+.audience-item {
+  background: var(--paper);
+  padding: 32px 26px;
+}
+.audience-item .tag {
+  font-size: 0.78rem;
+  color: var(--teal-deep);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.audience-item h3 {
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+.audience-item p {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
+}
+
+/* ---------- Donations / payments callout ---------- */
+.payments {
+  background: var(--paper-dim);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.payments-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: center;
+}
+@media (max-width: 860px) {
+  .payments-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+}
+.payments h2 {
+  font-size: var(--step-3);
+  max-width: 14ch;
+  color: var(--ink);
+}
+.payments p {
+  margin-top: 18px;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  max-width: 46ch;
+}
+.provider-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+}
+.provider-chip {
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+.receipt-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 24px 50px -28px rgba(22, 35, 58, 0.2);
+}
+.receipt-card .rc-label {
+  font-size: 0.75rem;
+  color: #8a8574;
+  margin-bottom: 4px;
+}
+.receipt-card .rc-org {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.3rem;
+  color: var(--ink);
+  margin-bottom: 22px;
+}
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+  font-size: 0.92rem;
+}
+.receipt-row:last-child {
+  font-weight: 700;
+  color: var(--teal-deep);
+}
+
+/* ---------- Quote / social proof ---------- */
+.quote-section {
+  padding: 100px 0;
+}
+.quote-mark {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 3.5rem;
+  color: var(--gold);
+  line-height: 0.5;
+  margin-bottom: 18px;
+  display: block;
+}
+blockquote {
+  margin: 0;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: var(--step-3);
+  color: var(--ink);
+  line-height: 1.4;
+  max-width: 30ch;
+}
+.quote-attr {
+  margin-top: 26px;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+.quote-attr strong {
+  color: var(--ink);
+}
+
+/* ---------- Final CTA ---------- */
+.final-cta {
+  background: var(--teal);
+  color: var(--white);
+  padding: 100px 0;
+  text-align: center;
+}
+.final-cta h2 {
+  color: var(--white);
+  font-size: var(--step-4);
+  max-width: 18ch;
+  margin: 0 auto;
+}
+.final-cta p {
+  margin-top: 20px;
+  font-size: var(--step-2);
+  color: #dcf0ea;
+  max-width: 44ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+.final-cta .hero-actions {
+  justify-content: center;
+  margin-top: 36px;
+}
+.final-cta .btn-primary {
+  background: var(--white);
+  color: var(--teal-deep);
+}
+.final-cta .btn-primary:hover {
+  background: #efeadd;
+}
+.final-cta .btn-ghost {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: var(--white);
+}
+.final-cta .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--white);
+}
+
+/* ---------- Footer ---------- */
+footer {
+  background: var(--navy);
+  color: #aeb9cb;
+  padding: 64px 0 40px;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: 40px;
+  padding-bottom: 44px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+@media (max-width: 780px) {
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.footer-logo {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.3rem;
+  color: var(--white);
+  margin-bottom: 14px;
+}
+.footer-tagline {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  max-width: 30ch;
+}
+.footer-col h4 {
+  font-size: 0.82rem;
+  color: #7c8aa3;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.footer-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 11px;
+}
+.footer-col a {
+  text-decoration: none;
+  color: #c4ccda;
+  font-size: 0.92rem;
+}
+.footer-col a:hover {
+  color: var(--white);
+}
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 28px;
+  font-size: 0.85rem;
+  color: #7c8aa3;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition: none !important;
+  }
+}
+
+/* ============================================================
+   DESIGN VARIABLES — raw values consumed by the landing CSS
+   above (also mirrored in brand.md + packages/config/tokens.ts).
+   ============================================================ */
+:root {
+  --paper: #faf7f0;
+  --paper-dim: #f1ece0;
+  --ink: #16233a;
+  --ink-soft: #3d4b5c;
+  --teal: #0e6e5c;
+  --teal-deep: #0a5548;
+  --navy: #1b2a4a;
+  --gold: #b98a2e;
+  --line: #dcd4c2;
+  --line-dark: rgba(255, 255, 255, 0.14);
+  --white: #ffffff;
+
+  --content-max: 1160px;
+  --measure: 62ch;
+
+  --step-1: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
+  --step-2: clamp(1.1875rem, 1.1rem + 0.4vw, 1.375rem);
+  --step-3: clamp(1.5rem, 1.35rem + 0.7vw, 1.875rem);
+  --step-4: clamp(2rem, 1.7rem + 1.2vw, 2.75rem);
+  --step-5: clamp(2.75rem, 2.2rem + 2.2vw, 4.25rem);
 }
 
 /* Glassmorphism helpers */
@@ -94,7 +840,7 @@
 }
 
 .glass-panel-dark {
-  background: rgba(28, 25, 23, 0.75);
+  background: rgba(22, 35, 58, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -102,7 +848,7 @@
 
 /* Custom glowing effects */
 .radial-glow {
-  background: radial-gradient(circle at 50% 0%, rgba(67, 56, 202, 0.15) 0%, rgba(245, 158, 11, 0.08) 40%, transparent 70%);
+  background: radial-gradient(circle at 50% 0%, rgba(14, 110, 92, 0.16) 0%, rgba(185, 138, 46, 0.10) 40%, transparent 70%);
 }
 
 /* Auth (login/signup) */
@@ -118,17 +864,18 @@
   flex-direction: column;
   justify-content: center;
   padding: clamp(2rem, 6vw, 5rem);
-  background: var(--background, #fafaf9);
+  background-color: hsl(var(--background));
 }
 
 .auth-brand {
   position: absolute;
   top: 1.75rem;
   left: clamp(2rem, 6vw, 5rem);
-  font-size: 1.125rem;
-  font-weight: 750;
-  letter-spacing: -0.02em;
-  color: var(--org-primary, #4338ca);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--org-primary, #0e6e5c);
   text-decoration: none;
 }
 
@@ -138,21 +885,21 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--org-accent, #f59e0b);
+  color: var(--org-accent, #b98a2e);
 }
 
 .auth-panel h1 {
   font-size: clamp(1.75rem, 3vw, 2.5rem);
-  font-weight: 750;
-  letter-spacing: -0.03em;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   line-height: 1.1;
-  color: var(--org-secondary, #1c1917);
+  color: var(--org-secondary, #1b2a4a);
 }
 
 .auth-intro {
   margin-top: 0.75rem;
   margin-bottom: 2rem;
-  color: #78716c;
+  color: var(--ink-soft, #3d4b5c);
   font-size: 0.95rem;
   line-height: 1.6;
 }
@@ -170,15 +917,15 @@
   gap: 0.4rem;
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--org-secondary, #1c1917);
+  color: var(--org-secondary, #1b2a4a);
 }
 
 .auth-field input {
   padding: 0.7rem 0.9rem;
   border-radius: 0.75rem;
-  border: 1px solid #d6d3d1;
+  border: 1px solid var(--line, #dcd4c2);
   background: #ffffff;
-  color: var(--org-secondary, #1c1917);
+  color: var(--org-secondary, #1b2a4a);
   font-size: 0.95rem;
   font-weight: 400;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -186,8 +933,8 @@
 
 .auth-field input:focus {
   outline: none;
-  border-color: var(--org-primary, #4338ca);
-  box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.15);
+  border-color: var(--org-primary, #0e6e5c);
+  box-shadow: 0 0 0 3px rgba(14, 110, 92, 0.18);
 }
 
 .form-error {
@@ -202,11 +949,11 @@
 .auth-submit {
   margin-top: 0.25rem;
   padding: 0.8rem 1rem;
-  border-radius: 0.85rem;
+  border-radius: 0.55rem;
   border: none;
-  background: var(--org-primary, #4338ca);
+  background: var(--org-primary, #0e6e5c);
   color: #ffffff;
-  font-weight: 650;
+  font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
   transition: filter 0.15s ease, transform 0.1s ease;
@@ -228,12 +975,12 @@
 .auth-switch {
   margin-top: 1.5rem;
   font-size: 0.875rem;
-  color: #78716c;
+  color: var(--ink-soft, #3d4b5c);
 }
 
 .auth-switch a {
-  color: var(--org-primary, #4338ca);
-  font-weight: 650;
+  color: var(--org-primary, #0e6e5c);
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -244,17 +991,18 @@
   gap: 1rem;
   padding: clamp(2rem, 6vw, 5rem);
   background:
-    radial-gradient(at 20% 20%, rgba(67, 56, 202, 0.7) 0%, transparent 45%),
-    radial-gradient(at 90% 70%, rgba(245, 158, 11, 0.45) 0%, transparent 50%),
-    linear-gradient(140deg, #1c1917 0%, #241f1c 55%, #4338ca 130%);
+    radial-gradient(at 20% 20%, rgba(14, 110, 92, 0.6) 0%, transparent 45%),
+    radial-gradient(at 90% 70%, rgba(185, 138, 46, 0.3) 0%, transparent 50%),
+    linear-gradient(140deg, #16233a 0%, #1b2a4a 55%, #0a5548 130%);
   color: #ffffff;
 }
 
 .auth-aside h2 {
   max-width: 18ch;
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  font-weight: 650;
-  letter-spacing: -0.03em;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
   line-height: 1.25;
 }
 
@@ -275,21 +1023,21 @@
 .aside-line {
   width: 3rem;
   height: 2px;
-  background: var(--org-accent, #f59e0b);
+  background: var(--org-accent, #b98a2e);
 }
 
 .auth-loading {
   min-height: 60vh;
   display: grid;
   place-items: center;
-  color: #78716c;
+  color: var(--ink-soft, #3d4b5c);
   font-size: 0.9rem;
 }
 
 .workspace-logout {
   padding: 0.45rem 0.85rem;
   border-radius: 0.65rem;
-  border: 1px solid #e7e5e4;
+  border: 1px solid var(--line, #dcd4c2);
   background: transparent;
   color: #57534e;
   font-size: 0.85rem;
@@ -299,13 +1047,13 @@
 }
 
 .workspace-logout:hover {
-  border-color: #d6d3d1;
-  color: #1c1917;
+  border-color: #c9c1af;
+  color: var(--org-secondary, #1b2a4a);
 }
 
 .grid-bg-pattern {
   background-size: 32px 32px;
   background-image:
-    linear-gradient(to right, rgba(28, 25, 23, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(28, 25, 23, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(22, 35, 58, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(22, 35, 58, 0.05) 1px, transparent 1px);
 }

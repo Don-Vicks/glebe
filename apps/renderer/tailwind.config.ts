@@ -9,9 +9,18 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
       },
       colors: {
-        ink: "#1C1917",
+        ink: "#16233A",
+        navy: "#1B2A4A",
+        teal: {
+          DEFAULT: "#0E6E5C",
+          deep: "#0A5548",
+        },
+        gold: "#B98A2E",
+        paper: "#FAF7F0",
+        "ink-soft": "#3D4B5C",
       },
     },
   },

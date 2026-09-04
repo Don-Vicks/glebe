@@ -107,9 +107,10 @@ model Site {
   customDomain   String?    @unique
   status         SiteStatus @default(DRAFT)
 
-  // Global brand controls (§5.2)
-  themeColors    Json       @default("{\"primary\":\"#4338CA\",\"secondary\":\"#1C1917\",\"accent\":\"#F59E0B\"}")
-  themeFonts     Json       @default("{\"heading\":\"Plus Jakarta Sans\",\"body\":\"Plus Jakarta Sans\"}")
+  // Global brand controls (§5.2) — new sites ship with the OrgSites
+  // default theme (teal / navy / gold), matching the landing palette.
+  themeColors    Json       @default("{\"primary\":\"#0E6E5C\",\"secondary\":\"#1B2A4A\",\"accent\":\"#B98A2E\"}")
+  themeFonts     Json       @default("{\"heading\":\"Fraunces\",\"body\":\"Inter\"}")
   logoUrl        String?
 
   createdAt      DateTime   @default(now())

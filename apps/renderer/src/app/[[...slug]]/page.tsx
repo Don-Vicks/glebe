@@ -47,9 +47,9 @@ export default async function TenantPage({ params, searchParams }: Props) {
     <div
       style={
         {
-          "--site-primary": theme?.primary ?? "#4338CA",
-          "--site-secondary": theme?.secondary ?? "#1C1917",
-          "--site-accent": theme?.accent ?? "#F59E0B",
+          "--site-primary": theme?.primary ?? "#0E6E5C",
+          "--site-secondary": theme?.secondary ?? "#1B2A4A",
+          "--site-accent": theme?.accent ?? "#B98A2E",
         } as React.CSSProperties
       }
     >

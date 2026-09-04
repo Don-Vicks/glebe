@@ -11,37 +11,41 @@ export const brand = {
   name: "OrgSites",
 
   colors: {
-    primary: "#4338CA",
-    "primary-soft": "#6366F1",
-    "primary-deep": "#3730A3",
-    accent: "#F59E0B",
-    "accent-soft": "#FBBF24",
+    primary: "#0E6E5C",
+    "primary-deep": "#0A5548",
+    accent: "#B98A2E",
+    "accent-sand": "#2A2109",
     success: "#10B981",
     danger: "#E11D48",
 
-    ink: "#1C1917",
-    "ink-muted": "#78716C",
+    paper: "#FAF7F0",
+    "paper-dim": "#F1ECE0",
+    ink: "#16233A",
+    "ink-soft": "#3D4B5C",
+    navy: "#1B2A4A",
+    line: "#DCD4C2",
 
-    background: "#FAFAF9",
+    background: "#FAF7F0",
     card: "#FFFFFF",
-    surface: "#F5F5F4",
-    border: "#E7E5E4",
+    surface: "#F1ECE0",
+    border: "#DCD4C2",
   },
 
   /** Block-rendering tokens. These read site-level theme overrides via CSS
    *  custom properties (--site-primary etc.), falling back to brand defaults.
    */
   block: {
-    primary: "#4338CA",
-    secondary: "#1C1917",
-    accent: "#F59E0B",
+    primary: "#0E6E5C",
+    secondary: "#1B2A4A",
+    accent: "#B98A2E",
     bg: "#FFFFFF",
-    surface: "#F5F5F4",
-    text: "#1C1917",
-    "text-muted": "#78716C",
-    border: "#E7E5E4",
-    radius: 20,
-    font: "'Plus Jakarta Sans', system-ui, sans-serif",
+    surface: "#F1ECE0",
+    text: "#16233A",
+    "text-muted": "#3D4B5C",
+    border: "#DCD4C2",
+    radius: 14,
+    font: "'Inter', system-ui, sans-serif",
+    "font-display": "'Fraunces', Georgia, serif",
   },
 
   /** CSS custom property names used by rendered sites. The renderer page
@@ -57,24 +61,25 @@ export const brand = {
    *  (mirrors the Prisma `themeColors` Json default in packages/db).
    */
   defaultTheme: {
-    primary: "#4338CA",
-    secondary: "#1C1917",
-    accent: "#F59E0B",
+    primary: "#0E6E5C",
+    secondary: "#1B2A4A",
+    accent: "#B98A2E",
   },
 } as const;
 
 /** Font stacks shared by block renderers (brand.md §3). */
 export const fontFamily = {
-  sans: "'Plus Jakarta Sans', system-ui, sans-serif",
+  sans: "'Inter', system-ui, sans-serif",
+  display: "'Fraunces', Georgia, serif",
 } as const;
 
 /** Border-radius scale (brand.md §6), in px. */
 export const radii = {
-  sm: 6,
-  md: 10,
-  lg: 14,
-  xl: 20,
-  "2xl": 28,
+  sm: 5,
+  md: 7,
+  lg: 12,
+  xl: 14,
+  "2xl": 20,
   full: 9999,
 } as const;
 

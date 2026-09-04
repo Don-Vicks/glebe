@@ -17,6 +17,7 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "Georgia", "serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -55,20 +56,23 @@ const config: Config = {
         "org-primary": "var(--org-primary)",
         "org-secondary": "var(--org-secondary)",
         "org-accent": "var(--org-accent)",
-        indigo: {
-          DEFAULT: "#4338CA",
-          soft: "#6366F1",
-          deep: "#3730A3",
+        teal: {
+          DEFAULT: "#0E6E5C",
+          soft: "#17806C",
+          deep: "#0A5548",
         },
-        amber: {
-          DEFAULT: "#F59E0B",
-          soft: "#FBBF24",
+        gold: {
+          DEFAULT: "#B98A2E",
+          soft: "#C99B45",
+          deep: "#9A7224",
         },
-        ink: "#1C1917",
+        navy: "#1B2A4A",
+        paper: "#FAF7F0",
+        ink: "#16233A",
       },
       boxShadow: {
-        "glow-primary": "0 0 24px rgba(67, 56, 202, 0.15)",
-        "glow-accent": "0 0 24px rgba(245, 158, 11, 0.20)",
+        "glow-primary": "0 0 24px rgba(14, 110, 92, 0.18)",
+        "glow-accent": "0 0 24px rgba(185, 138, 46, 0.25)",
       },
       borderRadius: {
         lg: "var(--radius)",

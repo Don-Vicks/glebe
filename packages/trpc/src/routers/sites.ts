@@ -97,6 +97,7 @@ export const sitesRouter = router({
    * and enqueues a rebuild job. The actual BullMQ enqueue happens API-side
    * (apps/api/src/queues) — this stub shows where that call belongs.
    */
+  /** Flip a site (and its pages) to PUBLISHED. */
   publish: editorProcedure
     .input(z.object({ siteId: z.string() }))
     .mutation(async ({ ctx, input }) => {

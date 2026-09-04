@@ -26,6 +26,7 @@ enum OrgType {
   OTHER
 }
 
+/** Subscription tier. Phase 0 uses FREE for all workspaces. */
 enum PlanTier {
   FREE
   STARTER

@@ -63,3 +63,16 @@ export function verifySessionToken(token: string): AuthedSession | null {
     return null;
   }
 }
+
+/** Seconds until a session token expires (null when unparsable/expired). */
+export function sessionTokenExpirySeconds(token: string): number | null {
+  const [, encodedPayload] = token.split(TOKEN_SEPARATOR);
+  if (!encodedPayload) return null;
+  try {
+    const payload = JSON.parse(base64UrlDecode(encodedPayload).toString("utf8")) as { exp?: number };
+    if (!payload.exp) return null;
+    return payload.exp - Math.floor(Date.now() / 1000);
+  } catch {
+    return null;
+  }
+}

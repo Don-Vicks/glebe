@@ -2,7 +2,7 @@ import { Body, Controller, Get, Headers, Post, Res } from "@nestjs/common";
 import { IsEmail, IsOptional, IsString, MinLength } from "class-validator";
 import type { Response } from "express";
 import { AuthService } from "./auth.service";
-import { signSessionToken } from "@orgsites/trpc";
+import { signSessionToken, sessionTokenExpirySeconds } from "@orgsites/trpc";
 
 class LoginDto {
   @IsEmail()
@@ -61,9 +61,19 @@ export class AuthController {
   }
 
   @Get("me")
-  async me(@Headers("cookie") cookieHeader?: string) {
-    const session = await this.authService.getSession(readCookie(cookieHeader, ACCESS_TOKEN_COOKIE));
+  async me(@Headers("cookie") cookieHeader?: string, @Res({ passthrough: true }) res?: Response) {
+    const token = readCookie(cookieHeader, ACCESS_TOKEN_COOKIE);
+    const session = await this.authService.getSession(token);
     if (!session) return { authenticated: false };
+
+    if (token && res) {
+      const remaining = sessionTokenExpirySeconds(token);
+      if (remaining !== null && remaining < 60 * 60 * 48) {
+        const fresh = signSessionToken(session, 60 * 60 * 24 * 7);
+        setAuthCookie(res, fresh);
+      }
+    }
+
     return { authenticated: true, session };
   }
 

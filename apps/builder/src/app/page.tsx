@@ -1,77 +1,81 @@
 import Link from "next/link";
-import { ArrowRight, CheckCircle, Sparkles, Shield, Zap, Globe, Heart, ArrowUpRight, Layers } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { LandingNavbar } from "@/components/landing/navbar";
 import { HeroPreviewTabs } from "@/components/landing/hero-preview-tabs";
 import { FeaturesSection } from "@/components/landing/features-section";
 import { TemplateGallery } from "@/components/landing/template-gallery";
 import { LandingFooter } from "@/components/landing/footer";
 
+const proof = ["Free to start", "Paystack & Stripe ready", "Custom domains"];
+
+const steps = [
+  {
+    number: "01",
+    title: "Create your workspace",
+    desc: "Sign up in seconds, pick your organization type (NGO, school, faith, foundation), and get a starter homepage seeded for you.",
+  },
+  {
+    number: "02",
+    title: "Customize in the visual editor",
+    desc: "Add content with the block editor, upload your branding and logo, and set up donation amounts and payment gateways.",
+  },
+  {
+    number: "03",
+    title: "Publish & connect your domain",
+    desc: "Hit publish to render high-speed ISR pages, connect your custom domain, and start receiving contributions immediately.",
+  },
+];
+
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background flex flex-col selection:bg-indigo-500/20 selection:text-indigo-900">
+    <div className="min-h-screen bg-background flex flex-col selection:bg-primary/20 selection:text-foreground">
       <LandingNavbar />
 
       <main className="flex-1">
-        {/* HERO SECTION */}
-        <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 border-b border-border/40">
-          {/* Subtle background glow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-indigo-500/10 via-indigo-400/5 to-transparent blur-3xl pointer-events-none -z-10" />
+        {/* HERO */}
+        <section className="relative overflow-hidden border-b border-border/60">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-[420px] bg-[radial-gradient(ellipse_at_top,rgba(67,56,202,0.10),transparent_60%)] pointer-events-none -z-10" />
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-              {/* Left Hero copy */}
-              <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-800 dark:text-indigo-300 text-xs font-black uppercase tracking-wider">
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-                  <span>Next-Gen Website Engine</span>
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-10 items-center">
+              <div className="lg:col-span-6 space-y-8 text-center lg:text-left">
+                <div className="space-y-5">
+                  <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-org-accent">
+                    For nonprofits · Schools · Faith communities · Civic groups
+                  </p>
+                  <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-bold tracking-tight text-foreground leading-[1.08]">
+                    Build the online home your organization deserves.
+                  </h1>
+                  <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                    OrgSites gives mission-driven teams a focused way to tell
+                    their story, accept donations, and keep publishing — with
+                    your own domain, your own brand, and no code.
+                  </p>
                 </div>
 
-                <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.08]">
-                  Launch high-impact websites for your{" "}
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-900">
-                    mission & community
-                  </span>
-                  .
-                </h1>
-
-                <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                  Build, customize, and publish multi-tenant websites for NGOs, faith organizations, schools, and civic causes with drag-and-drop ease, built-in donations, and custom domains.
-                </p>
-
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
-                  <Button variant="emerald" size="lg" asChild className="gap-2 text-base px-8 shadow-xl">
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                  <Button size="lg" asChild className="px-7">
                     <Link href="/signup">
-                      <span>Create your workspace</span>
-                      <ArrowRight className="w-4 h-4" />
+                      Create your workspace
+                      <ArrowRight className="w-4 h-4 ml-1" />
                     </Link>
                   </Button>
-                  <Button variant="outline" size="lg" asChild className="text-base px-6">
-                    <a href="#templates">
-                      <span>Explore templates</span>
-                    </a>
+                  <Button variant="outline" size="lg" asChild className="px-6">
+                    <a href="#templates">Explore templates</a>
                   </Button>
                 </div>
 
-                {/* Social proof highlights */}
-                <div className="pt-6 border-t border-slate-200/60 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-6 text-xs font-bold text-slate-600">
-                  <span className="flex items-center gap-1.5">
-                    <CheckCircle className="w-4 h-4 text-indigo-600" />
-                    No code required
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <CheckCircle className="w-4 h-4 text-indigo-600" />
-                    Paystack & Stripe ready
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <CheckCircle className="w-4 h-4 text-indigo-600" />
-                    Custom domain auto-SSL
-                  </span>
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-2 gap-y-1 text-sm text-muted-foreground">
+                  {proof.map((item, i) => (
+                    <span key={item} className="flex items-center gap-2">
+                      {i > 0 && <span className="w-1 h-1 rounded-full bg-border" />}
+                      {item}
+                    </span>
+                  ))}
                 </div>
               </div>
 
-              {/* Right Hero interactive preview */}
               <div className="lg:col-span-6 w-full">
                 <HeroPreviewTabs />
               </div>
@@ -79,79 +83,72 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* VALUE PROPS / FEATURES SECTION */}
         <FeaturesSection />
 
-        {/* WORKFLOW PIPELINE SECTION */}
-        <section id="workflow" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 text-white text-xs font-black uppercase tracking-wider">
-              <span>3 Simple Steps</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+        {/* WORKFLOW */}
+        <section id="workflow" className="py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-border/60">
+          <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
+            <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-org-accent">
+              How it works
+            </p>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
               From idea to live donation-ready site in minutes.
             </h2>
+            <p className="text-base text-muted-foreground leading-relaxed">
+              Three deliberate steps take you from signup to a published site
+              with donations flowing.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="rounded-3xl p-8 bg-white border border-slate-200 shadow-lg relative space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white font-black flex items-center justify-center text-lg">
-                1
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {steps.map((step) => (
+              <div
+                key={step.number}
+                className="rounded-2xl border border-border bg-card p-8 shadow-xs transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+              >
+                <div className="flex items-center gap-3 mb-5">
+                  <span className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center text-sm font-bold tracking-tight">
+                    {step.number}
+                  </span>
+                  <span className="h-px flex-1 bg-border" />
+                </div>
+                <h3 className="text-lg font-bold tracking-tight text-foreground mb-2">
+                  {step.title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {step.desc}
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-slate-900">Create & Choose Template</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Sign up in seconds, pick your organization archetype (NGO, School, Faith, Foundation), and auto-seed a starter homepage.
-              </p>
-            </div>
-
-            <div className="rounded-3xl p-8 bg-white border border-slate-200 shadow-lg relative space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-indigo-500 text-white font-black flex items-center justify-center text-lg">
-                2
-              </div>
-              <h3 className="text-xl font-bold text-slate-900">Customize in Visual Editor</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Add content with the Puck block editor, upload branding colors and logos, and set up donation amounts and payment gateways.
-              </p>
-            </div>
-
-            <div className="rounded-3xl p-8 bg-white border border-slate-200 shadow-lg relative space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-ink text-white font-black flex items-center justify-center text-lg">
-                3
-              </div>
-              <h3 className="text-xl font-bold text-slate-900">Publish & Connect Domain</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Hit publish to render high-speed ISR pages, connect your custom apex domain, and start receiving contributions immediately.
-              </p>
-            </div>
+            ))}
           </div>
         </section>
 
-        {/* TEMPLATES SHOWCASE */}
         <TemplateGallery />
 
-        {/* CONVERSION CALL TO ACTION BANNER */}
-        <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl bg-gradient-to-r from-indigo-800 via-indigo-900 to-ink p-10 sm:p-16 text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="space-y-4 max-w-xl text-center md:text-left z-10">
-              <span className="text-xs font-black uppercase tracking-widest text-amber-300">
-                Ready to transform your online presence?
-              </span>
-              <h2 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
-                Build your organization’s site today.
-              </h2>
-              <p className="text-sm sm:text-base text-white/80 leading-relaxed">
-                Join hundreds of forward-thinking nonprofits and communities using OrgSites to grow support and tell their story.
+        {/* CTA */}
+        <section className="py-20 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-deep via-indigo to-ink px-8 py-14 sm:px-14 sm:py-16 text-white">
+            <div className="absolute -top-24 right-0 w-96 h-96 rounded-full bg-white/5 blur-3xl pointer-events-none" />
+            <div className="relative max-w-2xl space-y-5">
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-amber-soft">
+                Ready when you are
               </p>
+              <h2 className="text-3xl sm:text-4xl font-bold tracking-tight leading-tight">
+                Build your organization&rsquo;s site today.
+              </h2>
+              <p className="text-sm sm:text-base text-white/75 max-w-lg leading-relaxed">
+                Join nonprofits and community teams using OrgSites to grow
+                support and tell their story. Free to start, live in minutes.
+              </p>
+              <div className="pt-2">
+                <Button variant="accent" size="lg" asChild className="px-8">
+                  <Link href="/signup">
+                    Get started free
+                    <ArrowRight className="w-4 h-4 ml-1.5" />
+                  </Link>
+                </Button>
+              </div>
             </div>
-            <div className="flex flex-col sm:flex-row items-center gap-3 z-10 w-full md:w-auto">
-              <Button variant="gold" size="lg" asChild className="w-full sm:w-auto text-base px-8">
-                <Link href="/signup">
-                  <span>Get started free</span>
-                  <ArrowRight className="w-4 h-4 ml-1.5" />
-                </Link>
-              </Button>
-            </div>
-            <div className="absolute right-0 top-0 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
           </div>
         </section>
       </main>

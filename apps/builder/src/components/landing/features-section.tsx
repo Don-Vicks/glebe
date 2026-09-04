@@ -1,60 +1,50 @@
-"use client";
-
-import { Layout, CreditCard, ShieldCheck, Zap, Globe2, Sparkles, Sliders, Users2, Database } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Layout, CreditCard, ShieldCheck, Zap, Globe2, Users2 } from "lucide-react";
 
 const features = [
   {
     icon: Layout,
-    title: "Visual Block Editor (Puck)",
-    desc: "Drag and drop modular blocks (Heroes, Missions, Donate CTAs, Events, Testimonials) without breaking brand layouts.",
-    badge: "Interactive",
+    title: "Visual block editor",
+    desc: "Drag and drop modular blocks — heroes, missions, donate CTAs, events, testimonials — without ever breaking your layout.",
   },
   {
     icon: CreditCard,
-    title: "Instant Donation Workflows",
-    desc: "Pre-integrated with Paystack, Flutterwave, Stripe, and PayPal with automated recurring support and receipts.",
-    badge: "Payments",
+    title: "Instant donation workflows",
+    desc: "Pre-integrated with Paystack, Flutterwave, Stripe, and PayPal, with automated recurring support and receipts.",
   },
   {
     icon: ShieldCheck,
-    title: "Multi-Tenant Isolation",
+    title: "Multi-tenant isolation",
     desc: "Strict row-level security and tenant sandboxing ensure organizations never leak records or credentials.",
-    badge: "Security",
   },
   {
     icon: Zap,
-    title: "High-Speed On-Demand ISR",
-    desc: "Instant page revalidation via Next.js ISR renders blazing fast pages without rebuilding your entire site.",
-    badge: "Performance",
+    title: "High-speed on-demand ISR",
+    desc: "Next.js ISR renders blazing-fast pages and revalidates on publish — no rebuilds, no waiting on CI.",
   },
   {
     icon: Globe2,
-    title: "Custom Domain Auto-SSL",
+    title: "Custom domain with auto-SSL",
     desc: "Automated DNS verification and zero-touch edge SSL provisioning for your primary brand domain.",
-    badge: "Publishing",
   },
   {
     icon: Users2,
-    title: "Team & Role Access",
-    desc: "Assign Owner, Editor, and Viewer permissions with full audit trail history for critical site updates.",
-    badge: "Collaboration",
+    title: "Team & role access",
+    desc: "Assign Owner, Editor, and Viewer permissions with a full audit trail for every critical site update.",
   },
 ];
 
 export function FeaturesSection() {
   return (
-    <section id="features" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-      <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-800 dark:text-indigo-300 text-xs font-black uppercase tracking-wider">
-          <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
-          <span>Purpose-Built for Mission Teams</span>
-        </div>
-        <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
-          Everything required to run professional community websites.
+    <section id="features" className="py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
+        <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-org-accent">
+          Purpose-built for mission teams
+        </p>
+        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
+          Everything you need to run a professional community website.
         </h2>
-        <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-          Skip messy generic website builders and custom dev retainers. OrgSites delivers purpose-crafted tools engineered specifically for civic, religious, and nonprofit workflows.
+        <p className="text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
+          Purpose-crafted tools for NGOs, schools, faith communities, and civic causes — no generic builder, no dev retainer.
         </p>
       </div>
 
@@ -62,25 +52,20 @@ export function FeaturesSection() {
         {features.map((item, idx) => {
           const Icon = item.icon;
           return (
-            <Card
+            <div
               key={idx}
-              className="border border-slate-200/80 bg-white/70 backdrop-blur-md hover:shadow-xl hover:border-indigo-500/30 transition-all duration-300 hover:-translate-y-1 group"
+              className="group rounded-2xl border border-border bg-card p-6 shadow-xs transition-all duration-200 hover:shadow-md hover:border-primary/25 hover:-translate-y-0.5"
             >
-              <CardHeader className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-600/10 to-indigo-600/20 text-indigo-700 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Icon className="w-6 h-6" />
-                  </div>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">
-                    {item.badge}
-                  </span>
-                </div>
-                <CardTitle className="text-xl font-bold">{item.title}</CardTitle>
-                <CardDescription className="text-sm leading-relaxed text-slate-600">
-                  {item.desc}
-                </CardDescription>
-              </CardHeader>
-            </Card>
+              <div className="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-5 transition-transform duration-200 group-hover:scale-105">
+                <Icon className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold tracking-tight text-foreground mb-2">
+                {item.title}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {item.desc}
+              </p>
+            </div>
           );
         })}
       </div>

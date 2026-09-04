@@ -1,6 +1,8 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import type { AuthedSession } from "./context";
 
+// JWTs are built by hand (header.payload.signature) so we control the
+// exact HMAC-SHA256 flow with zero runtime dependency on a JWT library.
 const TOKEN_SEPARATOR = ".";
 
 function base64UrlEncode(input: Buffer | string) {

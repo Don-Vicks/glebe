@@ -55,6 +55,7 @@ export const sitesRouter = router({
       return { site, template: input.template };
     }),
 
+  /** Fetch one site, verified to belong to the caller's organization. */
   byId: protectedProcedure
     .input(z.object({ siteId: z.string() }))
     .query(async ({ ctx, input }) => {

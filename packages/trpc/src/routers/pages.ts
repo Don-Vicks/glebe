@@ -11,6 +11,7 @@ import { router, protectedProcedure, editorProcedure } from "../trpc";
  * "hero" or "donate_cta" block is allowed to contain.
  */
 export const pagesRouter = router({
+  /** Ordered list of pages for a site. */
   list: protectedProcedure
     .input(z.object({ siteId: z.string() }))
     .query(async ({ ctx, input }) => {

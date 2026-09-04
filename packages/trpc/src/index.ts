@@ -1,3 +1,4 @@
+/** Single public entrypoint for consumers (Builder proxy + API). */
 export { appRouter } from "./routers/_app";
 export type { AppRouter } from "./routers/_app";
 export { createContext } from "./context";

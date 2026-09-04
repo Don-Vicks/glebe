@@ -20,7 +20,7 @@ export function DashboardHeader({ orgName }: { orgName: string }) {
         {/* Left: Brand + workspace */}
         <div className="flex items-center gap-3">
           <Link href="/dashboard" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-[10px] bg-gradient-to-br from-indigo-soft to-indigo-deep flex items-center justify-center text-white shadow-md shadow-primary/25">
+            <div className="w-8 h-8 rounded-[10px] bg-gradient-to-br from-teal-soft to-teal-deep flex items-center justify-center text-white shadow-md shadow-primary/25">
               <Globe className="w-4 h-4" />
             </div>
             <span className="hidden sm:block font-bold tracking-tight text-[17px] text-foreground">

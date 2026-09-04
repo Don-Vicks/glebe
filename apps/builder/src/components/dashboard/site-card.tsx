@@ -28,7 +28,7 @@ export function SiteCard({ site, rootDomain }: SiteCardProps) {
   return (
     <div className="rounded-2xl border border-border bg-card shadow-xs transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 flex flex-col justify-between overflow-hidden group">
       {/* Top banner */}
-      <div className="h-24 bg-gradient-to-br from-ink via-indigo-deep to-indigo p-5 text-white flex flex-col justify-between relative overflow-hidden">
+      <div className="h-24 bg-gradient-to-br from-navy via-teal-deep to-teal p-5 text-white flex flex-col justify-between relative overflow-hidden">
         <div className="flex items-center justify-between z-10">
           <Badge variant={isPublished ? "published" : "draft"} className="text-[10px]">
             {isPublished ? "Live published" : "Draft mode"}

@@ -44,7 +44,7 @@ export default function DashboardPage() {
   const metrics = [
     { label: "Total sites", value: sites.length, icon: Globe, valueClass: "" },
     { label: "Live sites", value: publishedCount, icon: Globe, valueClass: "text-emerald-600", tileClass: "bg-emerald-500/10 text-emerald-700" },
-    { label: "Draft sites", value: draftCount, icon: Globe, valueClass: "", tileClass: "bg-amber-500/10 text-amber-700" },
+    { label: "Draft sites", value: draftCount, icon: Globe, valueClass: "", tileClass: "bg-gold/10 text-gold-deep" },
     { label: "Total pages", value: totalPages, icon: FileText, valueClass: "" },
   ];
 

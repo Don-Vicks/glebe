@@ -93,6 +93,9 @@ importers:
       '@orgsites/block-schema':
         specifier: workspace:*
         version: link:../../packages/block-schema
+      '@orgsites/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@orgsites/db':
         specifier: workspace:*
         version: link:../../packages/db
@@ -196,9 +199,15 @@ importers:
       '@orgsites/block-schema':
         specifier: workspace:*
         version: link:../../packages/block-schema
+      '@orgsites/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@orgsites/db':
         specifier: workspace:*
         version: link:../../packages/db
+      '@orgsites/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       next:
         specifier: ^14.2.5
         version: 14.2.35(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -218,6 +227,15 @@ importers:
       '@types/react-dom':
         specifier: ^18.3.0
         version: 18.3.7(@types/react@18.3.31)
+      autoprefixer:
+        specifier: ^10.4.20
+        version: 10.5.4(postcss@8.5.26)
+      postcss:
+        specifier: ^8.4.41
+        version: 8.5.26
+      tailwindcss:
+        specifier: ^3.4.9
+        version: 3.4.19(tsx@4.23.12)
       typescript:
         specifier: ^5.5.4
         version: 5.9.3
@@ -280,6 +298,9 @@ importers:
 
   packages/ui:
     dependencies:
+      '@orgsites/block-schema':
+        specifier: workspace:*
+        version: link:../block-schema
       react:
         specifier: ^18.3.1
         version: 18.3.1

@@ -49,7 +49,7 @@ export class AuthController {
   @Post("signup")
   async signup(@Body() body: SignupDto, @Res({ passthrough: true }) res: Response) {
     const result = await this.authService.signup(body);
-    const token = signSessionToken(result.session, 60 * 60 * 24 * 7);
+    const token = signSessionToken(result.session, SESSION_TTL_SECONDS);
     setAuthCookie(res, token);
     return {
       user: {

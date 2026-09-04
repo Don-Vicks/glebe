@@ -41,6 +41,7 @@ export function signSessionToken(session: AuthedSession, expiresInSeconds: numbe
   return `${unsignedToken}${TOKEN_SEPARATOR}${signature}`;
 }
 
+/** Verify signature + expiry; returns null for any malformed/expired token. */
 export function verifySessionToken(token: string): AuthedSession | null {
   const [encodedHeader, encodedPayload, signature] = token.split(TOKEN_SEPARATOR);
   if (!encodedHeader || !encodedPayload || !signature) return null;

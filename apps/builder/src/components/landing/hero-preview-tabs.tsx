@@ -31,8 +31,8 @@ const archetypes: Record<
       { value: "48,000+", label: "Meals & Aid Distributed" },
       { value: "$2.4M", label: "Direct Impact Funded" },
     ],
-    accentColor: "text-emerald-700",
-    bannerGradient: "from-emerald-800 to-teal-950",
+    accentColor: "text-indigo-700",
+    bannerGradient: "from-indigo-800 to-indigo-950",
   },
   faith: {
     name: "Faith-Based Community",

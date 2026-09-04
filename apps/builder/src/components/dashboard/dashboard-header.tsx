@@ -20,8 +20,8 @@ export function DashboardHeader({ orgName }: { orgName: string }) {
         {/* Left: Workspace selector */}
         <div className="flex items-center gap-3">
           <Link href="/dashboard" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-emerald-700 to-slate-900 flex items-center justify-center text-white shadow-md">
-              <Globe className="w-5 h-5 text-emerald-300" />
+            <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-indigo-700 to-indigo-900 flex items-center justify-center text-white shadow-md">
+              <Globe className="w-5 h-5 text-indigo-200" />
             </div>
           </Link>
 
@@ -46,7 +46,7 @@ export function DashboardHeader({ orgName }: { orgName: string }) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-56">
               <DropdownMenuLabel>Current Workspace</DropdownMenuLabel>
-              <DropdownMenuItem className="font-semibold text-emerald-700">
+              <DropdownMenuItem className="font-semibold text-indigo-700">
                 <ShieldCheck className="w-4 h-4 mr-2" />
                 <span>{orgName}</span>
               </DropdownMenuItem>

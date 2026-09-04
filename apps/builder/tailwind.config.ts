@@ -4,6 +4,7 @@ const config: Config = {
   darkMode: ["class"],
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "../../packages/ui/src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     container: {
@@ -14,6 +15,9 @@ const config: Config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -51,6 +55,20 @@ const config: Config = {
         "org-primary": "var(--org-primary)",
         "org-secondary": "var(--org-secondary)",
         "org-accent": "var(--org-accent)",
+        indigo: {
+          DEFAULT: "#4338CA",
+          soft: "#6366F1",
+          deep: "#3730A3",
+        },
+        amber: {
+          DEFAULT: "#F59E0B",
+          soft: "#FBBF24",
+        },
+        ink: "#1C1917",
+      },
+      boxShadow: {
+        "glow-primary": "0 0 24px rgba(67, 56, 202, 0.15)",
+        "glow-accent": "0 0 24px rgba(245, 158, 11, 0.20)",
       },
       borderRadius: {
         lg: "var(--radius)",

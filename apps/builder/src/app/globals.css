@@ -4,72 +4,72 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 60 20% 98%;
+    --foreground: 24 10% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 24 10% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 24 10% 10%;
 
-    /* OrgSites emerald primary #0E6E5C -> 169 77% 24% */
-    --primary: 169 77% 24%;
-    --primary-foreground: 210 40% 98%;
+    /* OrgSites indigo primary #4338CA -> 245 71% 51% */
+    --primary: 245 71% 51%;
+    --primary-foreground: 0 0% 100%;
 
-    /* OrgSites navy secondary #1B2A4A -> 221 46% 20% */
-    --secondary: 221 46% 20%;
-    --secondary-foreground: 210 40% 98%;
+    /* OrgSites warm charcoal secondary #1C1917 -> 24 10% 10% */
+    --secondary: 24 10% 10%;
+    --secondary-foreground: 60 20% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 20 8% 95%;
+    --muted-foreground: 24 6% 45%;
 
-    /* OrgSites gold accent #C7962E -> 40 63% 48% */
-    --accent: 40 63% 48%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* OrgSites amber accent #F59E0B -> 38 92% 50% */
+    --accent: 38 92% 50%;
+    --accent-foreground: 24 10% 10%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 349 79% 50%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 169 77% 24%;
+    --border: 30 10% 90%;
+    --input: 30 10% 90%;
+    --ring: 245 71% 51%;
 
     --radius: 0.875rem;
 
-    --org-primary: #0e6e5c;
-    --org-secondary: #1b2a4a;
-    --org-accent: #c7962e;
+    --org-primary: #4338ca;
+    --org-secondary: #1c1917;
+    --org-accent: #f59e0b;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 24 10% 4%;
+    --foreground: 60 20% 98%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 24 10% 10%;
+    --card-foreground: 60 20% 98%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 24 10% 10%;
+    --popover-foreground: 60 20% 98%;
 
-    --primary: 169 77% 42%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 239 84% 67%;
+    --primary-foreground: 24 10% 4%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 24 12% 14%;
+    --secondary-foreground: 60 20% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 30 8% 15%;
+    --muted-foreground: 30 5% 63%;
 
-    --accent: 40 63% 48%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 45 91% 58%;
+    --accent-foreground: 24 10% 4%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 349 79% 50%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 169 77% 42%;
+    --border: 30 5% 27%;
+    --input: 30 5% 27%;
+    --ring: 239 84% 67%;
   }
 }
 
@@ -79,6 +79,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans), system-ui, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
@@ -92,7 +93,7 @@
 }
 
 .glass-panel-dark {
-  background: rgba(15, 23, 42, 0.75);
+  background: rgba(28, 25, 23, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -100,12 +101,210 @@
 
 /* Custom glowing effects */
 .radial-glow {
-  background: radial-gradient(circle at 50% 0%, rgba(14, 110, 92, 0.15) 0%, rgba(199, 150, 46, 0.08) 40%, transparent 70%);
+  background: radial-gradient(circle at 50% 0%, rgba(67, 56, 202, 0.15) 0%, rgba(245, 158, 11, 0.08) 40%, transparent 70%);
+}
+
+/* Auth (login/signup) */
+.auth-page {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+.auth-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 6vw, 5rem);
+  background: var(--background, #fafaf9);
+}
+
+.auth-brand {
+  position: absolute;
+  top: 1.75rem;
+  left: clamp(2rem, 6vw, 5rem);
+  font-size: 1.125rem;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  color: var(--org-primary, #4338ca);
+  text-decoration: none;
+}
+
+.auth-kicker {
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--org-accent, #f59e0b);
+}
+
+.auth-panel h1 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--org-secondary, #1c1917);
+}
+
+.auth-intro {
+  margin-top: 0.75rem;
+  margin-bottom: 2rem;
+  color: #78716c;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  max-width: 24rem;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--org-secondary, #1c1917);
+}
+
+.auth-field input {
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px solid #d6d3d1;
+  background: #ffffff;
+  color: var(--org-secondary, #1c1917);
+  font-size: 0.95rem;
+  font-weight: 400;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.auth-field input:focus {
+  outline: none;
+  border-color: var(--org-primary, #4338ca);
+  box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.15);
+}
+
+.form-error {
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.75rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 0.85rem;
+}
+
+.auth-submit {
+  margin-top: 0.25rem;
+  padding: 0.8rem 1rem;
+  border-radius: 0.85rem;
+  border: none;
+  background: var(--org-primary, #4338ca);
+  color: #ffffff;
+  font-weight: 650;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.auth-submit:hover {
+  filter: brightness(1.08);
+}
+
+.auth-submit:active {
+  transform: translateY(1px);
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-switch {
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: #78716c;
+}
+
+.auth-switch a {
+  color: var(--org-primary, #4338ca);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.auth-aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: clamp(2rem, 6vw, 5rem);
+  background:
+    radial-gradient(at 20% 20%, rgba(67, 56, 202, 0.7) 0%, transparent 45%),
+    radial-gradient(at 90% 70%, rgba(245, 158, 11, 0.45) 0%, transparent 50%),
+    linear-gradient(140deg, #1c1917 0%, #241f1c 55%, #4338ca 130%);
+  color: #ffffff;
+}
+
+.auth-aside h2 {
+  max-width: 18ch;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+}
+
+.auth-aside p {
+  max-width: 40ch;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.aside-mark {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.aside-line {
+  width: 3rem;
+  height: 2px;
+  background: var(--org-accent, #f59e0b);
+}
+
+.auth-loading {
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  color: #78716c;
+  font-size: 0.9rem;
+}
+
+.workspace-logout {
+  padding: 0.45rem 0.85rem;
+  border-radius: 0.65rem;
+  border: 1px solid #e7e5e4;
+  background: transparent;
+  color: #57534e;
+  font-size: 0.85rem;
+  font-weight: 550;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.workspace-logout:hover {
+  border-color: #d6d3d1;
+  color: #1c1917;
 }
 
 .grid-bg-pattern {
   background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+  background-image:
+    linear-gradient(to right, rgba(28, 25, 23, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(28, 25, 23, 0.04) 1px, transparent 1px);
 }

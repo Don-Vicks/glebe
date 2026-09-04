@@ -21,14 +21,14 @@ interface SiteCardProps {
 export function SiteCard({ site, rootDomain }: SiteCardProps) {
   const isPublished = site.status === "PUBLISHED";
   const primaryPageId = site.pages[0]?.id ?? "home";
-  const liveUrl = site.customDomain 
-    ? `https://${site.customDomain}` 
-    : `http://${site.subdomain}.${rootDomain}:3001`;
+  const liveUrl = site.customDomain
+    ? `https://${site.customDomain}`
+    : `http://localhost:3001/?site=${encodeURIComponent(site.subdomain)}`;
 
   return (
-    <div className="rounded-3xl border border-slate-200/90 bg-white shadow-sm hover:shadow-xl hover:border-emerald-500/30 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
+    <div className="rounded-3xl border border-slate-200/90 bg-white shadow-sm hover:shadow-xl hover:border-indigo-500/30 transition-all duration-300 flex flex-col justify-between overflow-hidden group">
       {/* Top Banner / Mockup preview bar */}
-      <div className="h-28 bg-gradient-to-br from-slate-900 via-teal-950 to-emerald-900 p-5 text-white flex flex-col justify-between relative overflow-hidden">
+      <div className="h-28 bg-gradient-to-br from-ink via-indigo-950 to-indigo-900 p-5 text-white flex flex-col justify-between relative overflow-hidden">
         <div className="flex items-center justify-between z-10">
           <Badge variant={isPublished ? "published" : "draft"} className="text-[10px] shadow-sm">
             {isPublished ? "● Live Published" : "○ Draft Mode"}
@@ -43,7 +43,7 @@ export function SiteCard({ site, rootDomain }: SiteCardProps) {
             {site.organization.name}
           </h4>
         </div>
-        <div className="absolute -right-6 -bottom-6 w-32 h-32 rounded-full bg-emerald-500/10 blur-xl pointer-events-none" />
+        <div className="absolute -right-6 -bottom-6 w-32 h-32 rounded-full bg-indigo-500/10 blur-xl pointer-events-none" />
       </div>
 
       {/* Card Details */}
@@ -51,7 +51,7 @@ export function SiteCard({ site, rootDomain }: SiteCardProps) {
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center gap-2">
-              <Layers className="w-4 h-4 text-emerald-700 shrink-0" />
+              <Layers className="w-4 h-4 text-indigo-700 shrink-0" />
               <span className="font-bold text-slate-700">{site.pages.length} Page{site.pages.length === 1 ? "" : "s"}</span>
             </div>
             <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 flex items-center gap-2 truncate">

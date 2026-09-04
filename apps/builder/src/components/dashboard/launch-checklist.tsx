@@ -55,7 +55,7 @@ export function LaunchChecklist({ hasOrg, hasSite, hasPublished }: LaunchCheckli
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <div className="space-y-1">
-            <span className="text-[11px] font-black uppercase tracking-wider text-emerald-700">
+            <span className="text-[11px] font-black uppercase tracking-wider text-indigo-700">
               Getting Started
             </span>
             <CardTitle className="text-xl font-bold">Launch Readiness</CardTitle>
@@ -78,7 +78,7 @@ export function LaunchChecklist({ hasOrg, hasSite, hasPublished }: LaunchCheckli
               className={`p-3 rounded-2xl border transition-all flex items-center justify-between gap-3 ${
                 step.done
                   ? "bg-slate-50/60 border-slate-200/60 text-slate-600"
-                  : "bg-white border-slate-200 hover:border-emerald-500/40 text-slate-900 shadow-xs"
+                  : "bg-white border-slate-200 hover:border-indigo-500/40 text-slate-900 shadow-xs"
               }`}
             >
               <div className="flex items-center gap-3">
@@ -98,7 +98,7 @@ export function LaunchChecklist({ hasOrg, hasSite, hasPublished }: LaunchCheckli
               {!step.done && (
                 <Link
                   href={step.href}
-                  className="text-xs font-extrabold text-emerald-700 hover:text-emerald-800 flex items-center gap-1 shrink-0 px-2.5 py-1 rounded-lg hover:bg-emerald-50"
+                  className="text-xs font-extrabold text-indigo-700 hover:text-indigo-800 flex items-center gap-1 shrink-0 px-2.5 py-1 rounded-lg hover:bg-indigo-50"
                 >
                   <span>Start</span>
                   <ArrowRight className="w-3 h-3" />

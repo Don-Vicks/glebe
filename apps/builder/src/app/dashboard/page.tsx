@@ -57,8 +57,8 @@ export default function DashboardPage() {
         {/* Workspace Intro & Quick Stats */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 text-[11px] font-black uppercase tracking-wider">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-800 text-[11px] font-black uppercase tracking-wider">
+              <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
               <span>Multi-Tenant Workspace</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">
@@ -87,7 +87,7 @@ export default function DashboardPage() {
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Sites</span>
                 <div className="text-3xl font-black text-slate-900 mt-1">{sites.length}</div>
               </div>
-              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold">
                 <Globe className="w-6 h-6" />
               </div>
             </CardContent>
@@ -187,7 +187,7 @@ export default function DashboardPage() {
             {/* Query states */}
             {sitesQuery.isLoading && (
               <div className="rounded-3xl border border-slate-200 bg-white p-12 text-center text-slate-500">
-                <div className="w-8 h-8 rounded-full border-2 border-emerald-600 border-t-transparent animate-spin mx-auto mb-3" />
+                <div className="w-8 h-8 rounded-full border-2 border-indigo-600 border-t-transparent animate-spin mx-auto mb-3" />
                 <span className="text-sm font-semibold">Loading your workspace sites…</span>
               </div>
             )}
@@ -211,7 +211,7 @@ export default function DashboardPage() {
             {/* Empty state */}
             {!sitesQuery.isLoading && !sitesQuery.error && filteredSites.length === 0 && (
               <div className="rounded-3xl border border-dashed border-slate-300 bg-white/60 p-12 text-center space-y-4">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto">
+                <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center mx-auto">
                   <Globe className="w-6 h-6" />
                 </div>
                 <div className="space-y-1 max-w-sm mx-auto">
@@ -248,10 +248,10 @@ export default function DashboardPage() {
               <CardContent className="space-y-2 text-xs font-semibold">
                 <Link
                   href="/onboarding"
-                  className="flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/50 hover:text-emerald-700 transition-colors"
+                  className="flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-indigo-50/50 hover:text-indigo-700 transition-colors"
                 >
                   <span className="flex items-center gap-2">
-                    <Plus className="w-4 h-4 text-emerald-600" />
+                    <Plus className="w-4 h-4 text-indigo-600" />
                     <span>Create another site</span>
                   </span>
                   <ArrowUpRight className="w-3.5 h-3.5 text-slate-400" />

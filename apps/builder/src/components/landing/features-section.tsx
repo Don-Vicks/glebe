@@ -46,8 +46,8 @@ export function FeaturesSection() {
   return (
     <section id="features" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
       <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-xs font-black uppercase tracking-wider">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-800 dark:text-indigo-300 text-xs font-black uppercase tracking-wider">
+          <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
           <span>Purpose-Built for Mission Teams</span>
         </div>
         <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
@@ -64,11 +64,11 @@ export function FeaturesSection() {
           return (
             <Card
               key={idx}
-              className="border border-slate-200/80 bg-white/70 backdrop-blur-md hover:shadow-xl hover:border-emerald-500/30 transition-all duration-300 hover:-translate-y-1 group"
+              className="border border-slate-200/80 bg-white/70 backdrop-blur-md hover:shadow-xl hover:border-indigo-500/30 transition-all duration-300 hover:-translate-y-1 group"
             >
               <CardHeader className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-600/10 to-teal-600/20 text-emerald-700 flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-600/10 to-indigo-600/20 text-indigo-700 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <Icon className="w-6 h-6" />
                   </div>
                   <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">

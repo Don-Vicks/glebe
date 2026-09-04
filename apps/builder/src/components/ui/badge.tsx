@@ -19,9 +19,11 @@ const badgeVariants = cva(
         draft:
           "border-amber-500/20 bg-amber-500/10 text-amber-800 font-bold dark:text-amber-300",
         emerald:
-          "border-transparent bg-emerald-700 text-white font-bold",
+          "border-transparent bg-indigo-700 text-white font-bold",
         gold:
           "border-amber-500/30 bg-amber-100 text-amber-900 font-bold",
+        primary:
+          "border-indigo-500/20 bg-indigo-500/10 text-indigo-800 font-bold dark:text-indigo-300",
       },
     },
     defaultVariants: {

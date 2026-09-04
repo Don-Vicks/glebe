@@ -8,19 +8,20 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground shadow hover:bg-primary/90 shadow-emerald-950/10",
+        default:
+          "bg-gradient-to-r from-indigo-700 to-indigo-600 text-white shadow-glow-primary hover:opacity-95 hover:shadow-xl hover:shadow-indigo-900/20",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
-          "border border-input bg-background/80 backdrop-blur-sm shadow-sm hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-background/80 backdrop-blur-sm shadow-sm hover:bg-accent/10 hover:text-accent-foreground",
         secondary:
           "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/90",
         ghost: "hover:bg-accent/10 hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         emerald:
-          "bg-gradient-to-r from-emerald-700 via-teal-700 to-slate-900 text-white shadow-lg shadow-emerald-900/20 hover:opacity-95 hover:shadow-xl hover:shadow-emerald-900/30",
+          "bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-800 text-white shadow-glow-primary hover:opacity-95 hover:shadow-xl hover:shadow-indigo-900/30",
         gold:
-          "bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 font-bold shadow-md shadow-amber-500/20 hover:from-amber-400 hover:to-amber-500",
+          "bg-gradient-to-r from-amber-500 to-amber-600 text-ink font-bold shadow-glow-accent hover:from-amber-400 hover:to-amber-500",
       },
       size: {
         default: "h-10 px-5 py-2",

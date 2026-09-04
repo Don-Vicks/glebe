@@ -10,27 +10,27 @@ import { LandingFooter } from "@/components/landing/footer";
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background flex flex-col selection:bg-emerald-500/20 selection:text-emerald-900">
+    <div className="min-h-screen bg-background flex flex-col selection:bg-indigo-500/20 selection:text-indigo-900">
       <LandingNavbar />
 
       <main className="flex-1">
         {/* HERO SECTION */}
         <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 border-b border-border/40">
           {/* Subtle background glow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-emerald-500/10 via-teal-500/5 to-transparent blur-3xl pointer-events-none -z-10" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-indigo-500/10 via-indigo-400/5 to-transparent blur-3xl pointer-events-none -z-10" />
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
               {/* Left Hero copy */}
               <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-xs font-black uppercase tracking-wider">
-                  <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-800 dark:text-indigo-300 text-xs font-black uppercase tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
                   <span>Next-Gen Website Engine</span>
                 </div>
 
                 <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.08]">
                   Launch high-impact websites for your{" "}
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-900">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 via-indigo-600 to-indigo-900">
                     mission & community
                   </span>
                   .
@@ -57,15 +57,15 @@ export default function LandingPage() {
                 {/* Social proof highlights */}
                 <div className="pt-6 border-t border-slate-200/60 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-6 text-xs font-bold text-slate-600">
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle className="w-4 h-4 text-emerald-600" />
+                    <CheckCircle className="w-4 h-4 text-indigo-600" />
                     No code required
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle className="w-4 h-4 text-emerald-600" />
+                    <CheckCircle className="w-4 h-4 text-indigo-600" />
                     Paystack & Stripe ready
                   </span>
                   <span className="flex items-center gap-1.5">
-                    <CheckCircle className="w-4 h-4 text-emerald-600" />
+                    <CheckCircle className="w-4 h-4 text-indigo-600" />
                     Custom domain auto-SSL
                   </span>
                 </div>
@@ -95,7 +95,7 @@ export default function LandingPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="rounded-3xl p-8 bg-white border border-slate-200 shadow-lg relative space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white font-black flex items-center justify-center text-lg">
+              <div className="w-10 h-10 rounded-xl bg-indigo-600 text-white font-black flex items-center justify-center text-lg">
                 1
               </div>
               <h3 className="text-xl font-bold text-slate-900">Create & Choose Template</h3>
@@ -105,7 +105,7 @@ export default function LandingPage() {
             </div>
 
             <div className="rounded-3xl p-8 bg-white border border-slate-200 shadow-lg relative space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-teal-700 text-white font-black flex items-center justify-center text-lg">
+              <div className="w-10 h-10 rounded-xl bg-indigo-500 text-white font-black flex items-center justify-center text-lg">
                 2
               </div>
               <h3 className="text-xl font-bold text-slate-900">Customize in Visual Editor</h3>
@@ -115,7 +115,7 @@ export default function LandingPage() {
             </div>
 
             <div className="rounded-3xl p-8 bg-white border border-slate-200 shadow-lg relative space-y-4">
-              <div className="w-10 h-10 rounded-xl bg-slate-950 text-white font-black flex items-center justify-center text-lg">
+              <div className="w-10 h-10 rounded-xl bg-ink text-white font-black flex items-center justify-center text-lg">
                 3
               </div>
               <h3 className="text-xl font-bold text-slate-900">Publish & Connect Domain</h3>
@@ -131,7 +131,7 @@ export default function LandingPage() {
 
         {/* CONVERSION CALL TO ACTION BANNER */}
         <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="rounded-3xl bg-gradient-to-r from-emerald-800 via-teal-900 to-slate-950 p-10 sm:p-16 text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="rounded-3xl bg-gradient-to-r from-indigo-800 via-indigo-900 to-ink p-10 sm:p-16 text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
             <div className="space-y-4 max-w-xl text-center md:text-left z-10">
               <span className="text-xs font-black uppercase tracking-widest text-amber-300">
                 Ready to transform your online presence?

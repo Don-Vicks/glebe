@@ -13,7 +13,7 @@ const templates = [
     category: "Non-Profit",
     description: "Built around mission storytelling, emergency campaigns, verifiable impact statistics, and recurring donor tier subscriptions.",
     tags: ["Donations", "Impact Stats", "Programs", "Volunteer Forms"],
-    gradient: "from-emerald-700 to-teal-900",
+    gradient: "from-indigo-700 to-indigo-900",
   },
   {
     id: "faith",
@@ -37,7 +37,7 @@ const templates = [
     category: "Grantmaking",
     description: "Optimized for grant application timelines, public financial disclosure downloads, and funded initiative highlights.",
     tags: ["Grant Tracking", "Annual Reports", "Board Members", "Press"],
-    gradient: "from-teal-900 to-slate-950",
+    gradient: "from-indigo-900 to-ink",
   },
 ];
 
@@ -54,8 +54,8 @@ export function TemplateGallery() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div className="space-y-3 max-w-xl">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 text-white text-[11px] font-bold uppercase tracking-wider">
-              <Layers className="w-3.5 h-3.5 text-amber-400" />
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-ink text-white text-[11px] font-bold uppercase tracking-wider">
+              <Layers className="w-3.5 h-3.5 text-amber-300" />
               <span>Starting Blueprints</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
@@ -74,7 +74,7 @@ export function TemplateGallery() {
                 onClick={() => setSelectedTag(tag)}
                 className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
                   selectedTag === tag
-                    ? "bg-emerald-700 text-white shadow-md shadow-emerald-700/20"
+                    ? "bg-indigo-700 text-white shadow-md shadow-indigo-700/20"
                     : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-100"
                 }`}
               >
@@ -88,7 +88,7 @@ export function TemplateGallery() {
           {filtered.map((t) => (
             <div
               key={t.id}
-              className="rounded-3xl border border-slate-200/80 bg-white overflow-hidden shadow-lg hover:shadow-2xl hover:border-emerald-500/40 transition-all duration-300 flex flex-col justify-between group"
+              className="rounded-3xl border border-slate-200/80 bg-white overflow-hidden shadow-lg hover:shadow-2xl hover:border-indigo-500/40 transition-all duration-300 flex flex-col justify-between group"
             >
               <div className={`h-48 bg-gradient-to-br ${t.gradient} p-8 text-white flex flex-col justify-between relative overflow-hidden`}>
                 <div className="flex items-center justify-between z-10">
@@ -116,8 +116,8 @@ export function TemplateGallery() {
                   </div>
 
                   <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-xs font-semibold text-emerald-700">Zero coding required</span>
-                    <Button variant="outline" size="sm" asChild className="gap-1 rounded-full group-hover:bg-emerald-700 group-hover:text-white transition-colors">
+                    <span className="text-xs font-semibold text-indigo-700">Zero coding required</span>
+                    <Button variant="outline" size="sm" asChild className="gap-1 rounded-full group-hover:bg-indigo-700 group-hover:text-white transition-colors">
                       <Link href="/signup">
                         <span>Use template</span>
                         <ArrowUpRight className="w-3.5 h-3.5" />

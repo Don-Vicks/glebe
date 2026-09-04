@@ -44,6 +44,7 @@ export const pagesRouter = router({
       return page;
     }),
 
+  /** Create a blank page under a site. */
   create: editorProcedure
     .input(
       z.object({

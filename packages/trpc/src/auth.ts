@@ -5,6 +5,7 @@ import type { AuthedSession } from "./context";
 // exact HMAC-SHA256 flow with zero runtime dependency on a JWT library.
 const TOKEN_SEPARATOR = ".";
 
+/** Encode to base64url (RFC 4648 §5) without padding. */
 function base64UrlEncode(input: Buffer | string) {
   return Buffer.from(input).toString("base64url");
 }

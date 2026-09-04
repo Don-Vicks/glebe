@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+// Routes that require a valid session before they render anything.
 const protectedPrefixes = ["/dashboard", "/onboarding", "/sites"];
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {

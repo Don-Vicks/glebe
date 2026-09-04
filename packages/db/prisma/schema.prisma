@@ -213,6 +213,7 @@ model DonationTransaction {
 // Forms, Events, Posts
 // ---------------------------------------------------------------------------
 
+/** Which block form produced this submission. */
 enum FormType {
   VOLUNTEER
   CONTACT

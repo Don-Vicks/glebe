@@ -35,6 +35,8 @@ export function AuthGuard({ children }: { children: React.ReactNode }) {
           router.replace(`/login?next=${encodeURIComponent(pathname)}`);
           return;
         }
+        // Back off on transient failures (e.g. brief API restart)
+        // instead of bouncing the user to login immediately.
         timer = setTimeout(check, 800 * attempts);
       }
     }

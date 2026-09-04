@@ -31,6 +31,8 @@ class SignupDto {
 }
 
 const ACCESS_TOKEN_COOKIE = "orgsites_session";
+const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7;
+const RENEWAL_THRESHOLD_SECONDS = 60 * 60 * 48;
 
 @Controller("auth")
 export class AuthController {

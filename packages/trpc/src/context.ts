@@ -6,6 +6,7 @@ import { prisma } from "@orgsites/db";
  * For the Builder app, the session is resolved in
  * apps/builder/src/server/context.ts, which calls createContext() below.
  */
+/** Claims decoded from the signed session token. */
 export interface AuthedSession {
   userId: string;
   organizationId: string;

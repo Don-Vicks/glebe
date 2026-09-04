@@ -12,6 +12,7 @@
   "dependencies": {
     "@measured/puck": "^0.16.0",
     "@orgsites/block-schema": "workspace:*",
+    "@orgsites/config": "workspace:*",
     "@orgsites/db": "workspace:*",
     "@orgsites/trpc": "workspace:*",
     "@orgsites/ui": "workspace:*",

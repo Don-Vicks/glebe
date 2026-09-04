@@ -180,6 +180,7 @@ model PaymentProviderConfig {
   @@map("payment_provider_configs")
 }
 
+/** Donation lifecycle tracked against provider callbacks. */
 enum DonationStatus {
   PENDING
   SUCCESS

@@ -4,6 +4,7 @@ import { TRPCError } from "@trpc/server";
 import { router, protectedProcedure, editorProcedure } from "../trpc";
 
 export const sitesRouter = router({
+  /** All sites for the caller's organization. */
   mine: protectedProcedure.query(async ({ ctx }) => {
     return ctx.db.site.findMany({
       where: { organizationId: ctx.session.organizationId },

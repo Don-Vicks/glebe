@@ -50,6 +50,7 @@ model Organization {
   @@map("organizations")
 }
 
+/** Per-workspace role: OWNER/EDITOR may write, VIEWER is read-only. */
 enum UserRole {
   OWNER
   EDITOR

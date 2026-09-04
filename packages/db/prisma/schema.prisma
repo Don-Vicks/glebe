@@ -155,6 +155,7 @@ model Page {
 // Payments & Donations (§8.6 payments abstraction)
 // ---------------------------------------------------------------------------
 
+/** Supported donation processors (spec §8.6). */
 enum PaymentProvider {
   PAYSTACK
   FLUTTERWAVE

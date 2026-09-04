@@ -15,6 +15,7 @@ function base64UrlDecode(input: string) {
   return Buffer.from(input, "base64url");
 }
 
+/** Resolve the HMAC secret from env; never allow the dev fallback in prod. */
 function getSigningSecret() {
   const secret = process.env.ORGSITES_AUTH_SECRET;
   if (!secret && process.env.NODE_ENV === "production") {

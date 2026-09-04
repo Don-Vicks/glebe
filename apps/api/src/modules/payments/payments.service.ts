@@ -44,6 +44,7 @@ export class PaymentsService {
    * DonationTransaction write + receipt email happen asynchronously,
    * resilient to provider retries.
    */
+  /** Verify + process a provider webhook, flipping donation statuses. */
   async handleWebhook(providerName: "PAYSTACK" | "STRIPE", rawBody: Buffer, signature: string | undefined) {
     const provider = this.resolveProvider(providerName);
     const result = await provider.verifyWebhook(rawBody, signature);

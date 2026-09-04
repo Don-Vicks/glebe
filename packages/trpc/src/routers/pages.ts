@@ -134,6 +134,7 @@ export const pagesRouter = router({
  * enforcement point described in spec §8.3 — every mutation routes through
  * a check like this rather than trusting a bare siteId from the client.
  */
+/** Guards: throws NOT_FOUND unless the site belongs to the caller's org. */
 async function assertSiteInOrg(
   ctx: { db: import("@orgsites/db").PrismaClient; session: { organizationId: string } | null },
   siteId: string

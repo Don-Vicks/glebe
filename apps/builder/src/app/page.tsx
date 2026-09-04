@@ -1,283 +1,162 @@
 import Link from "next/link";
-
-const featureCards = [
-  {
-    title: "Build sites fast",
-    body: "Give every organization a polished website with editing tools, templates, and guided setup.",
-  },
-  {
-    title: "Handle donations",
-    body: "Connect payment providers and publish donation-ready pages with webhook-backed payment flows.",
-  },
-  {
-    title: "Ship safely",
-    body: "Multi-tenant auth, row-level access, audit logs, and queue-driven publishing keep the platform secure.",
-  },
-];
-
-const templates = [
-  { name: "NGO", desc: "Mission-first storytelling with impact, programs, and donation calls to action." },
-  { name: "School", desc: "Admissions, events, news, and parent-friendly information architecture." },
-  { name: "Faith", desc: "Services, ministries, giving, and community updates with a warm visual style." },
-];
+import { ArrowRight, CheckCircle, Sparkles, Shield, Zap, Globe, Heart, ArrowUpRight, Layers } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { LandingNavbar } from "@/components/landing/navbar";
+import { HeroPreviewTabs } from "@/components/landing/hero-preview-tabs";
+import { FeaturesSection } from "@/components/landing/features-section";
+import { TemplateGallery } from "@/components/landing/template-gallery";
+import { LandingFooter } from "@/components/landing/footer";
 
 export default function LandingPage() {
   return (
-    <main style={pageShell}>
-      <section style={heroShell}>
-        <div style={heroGlowOne} />
-        <div style={heroGlowTwo} />
-        <div style={heroContent}>
-          <div style={eyebrow}>OrgSites</div>
-          <h1 style={heroTitle}>Launch beautiful nonprofit and community websites without hiring a full dev team.</h1>
-          <p style={heroCopy}>
-            Build, publish, and manage multi-tenant websites for NGOs, faith groups, schools, and civic institutions with
-            a guided editor, donation-ready pages, and a production-grade backend.
-          </p>
-          <div style={ctaRow}>
-            <Link href="/signup" style={primaryButton}>
-              Start building
-            </Link>
-            <a href="#templates" style={secondaryButton}>
-              Explore templates
-            </a>
-          </div>
-          <div style={socialProof}>
-            <span>Fast setup</span>
-            <span>Donation ready</span>
-            <span>Multi-tenant</span>
-            <span>Built for teams</span>
-          </div>
-        </div>
-        <div style={heroPanel}>
-          <div style={heroPanelHeader}>Live preview</div>
-          <div style={heroMockSite}>
-            <div style={heroMockKicker}>Hope Foundation</div>
-            <div style={heroMockTitle}>Helping communities build stronger futures.</div>
-            <div style={heroMockBody}>A polished, mobile-friendly nonprofit site with clear storytelling and a donate path.</div>
-            <div style={heroMockStatRow}>
-              <div>
-                <strong>12k</strong>
-                <span>families served</span>
+    <div className="min-h-screen bg-background flex flex-col selection:bg-emerald-500/20 selection:text-emerald-900">
+      <LandingNavbar />
+
+      <main className="flex-1">
+        {/* HERO SECTION */}
+        <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 border-b border-border/40">
+          {/* Subtle background glow */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-96 bg-gradient-to-b from-emerald-500/10 via-teal-500/5 to-transparent blur-3xl pointer-events-none -z-10" />
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+              {/* Left Hero copy */}
+              <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 dark:text-emerald-300 text-xs font-black uppercase tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Next-Gen Website Engine</span>
+                </div>
+
+                <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.08]">
+                  Launch high-impact websites for your{" "}
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-900">
+                    mission & community
+                  </span>
+                  .
+                </h1>
+
+                <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                  Build, customize, and publish multi-tenant websites for NGOs, faith organizations, schools, and civic causes with drag-and-drop ease, built-in donations, and custom domains.
+                </p>
+
+                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
+                  <Button variant="emerald" size="lg" asChild className="gap-2 text-base px-8 shadow-xl">
+                    <Link href="/signup">
+                      <span>Create your workspace</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </Button>
+                  <Button variant="outline" size="lg" asChild className="text-base px-6">
+                    <a href="#templates">
+                      <span>Explore templates</span>
+                    </a>
+                  </Button>
+                </div>
+
+                {/* Social proof highlights */}
+                <div className="pt-6 border-t border-slate-200/60 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-6 text-xs font-bold text-slate-600">
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle className="w-4 h-4 text-emerald-600" />
+                    No code required
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle className="w-4 h-4 text-emerald-600" />
+                    Paystack & Stripe ready
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <CheckCircle className="w-4 h-4 text-emerald-600" />
+                    Custom domain auto-SSL
+                  </span>
+                </div>
               </div>
-              <div>
-                <strong>4.9</strong>
-                <span>donor satisfaction</span>
+
+              {/* Right Hero interactive preview */}
+              <div className="lg:col-span-6 w-full">
+                <HeroPreviewTabs />
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section style={sectionShell}>
-        <div style={sectionHeader}>
-          <div style={sectionKicker}>Why OrgSites</div>
-          <h2 style={sectionTitle}>Everything needed to run the product as a real SaaS.</h2>
-        </div>
-        <div style={featureGrid}>
-          {featureCards.map((feature) => (
-            <article key={feature.title} style={card}>
-              <h3 style={cardTitle}>{feature.title}</h3>
-              <p style={cardBody}>{feature.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+        {/* VALUE PROPS / FEATURES SECTION */}
+        <FeaturesSection />
 
-      <section id="templates" style={{ ...sectionShell, paddingTop: 20 }}>
-        <div style={sectionHeader}>
-          <div style={sectionKicker}>Templates</div>
-          <h2 style={sectionTitle}>Start from a strong first draft for each organization type.</h2>
-        </div>
-        <div style={templateGrid}>
-          {templates.map((template) => (
-            <article key={template.name} style={templateCard}>
-              <div style={templateName}>{template.name}</div>
-              <p style={cardBody}>{template.desc}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+        {/* WORKFLOW PIPELINE SECTION */}
+        <section id="workflow" className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 text-white text-xs font-black uppercase tracking-wider">
+              <span>3 Simple Steps</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+              From idea to live donation-ready site in minutes.
+            </h2>
+          </div>
 
-      <section style={sectionShell}>
-        <div style={faqCard}>
-          <div style={sectionKicker}>How it works</div>
-          <ol style={steps}>
-            <li>Sign up and create an organization.</li>
-            <li>Choose a template and edit pages in the Builder.</li>
-            <li>Publish to the public Renderer and connect donations, forms, and domain settings.</li>
-          </ol>
-        </div>
-      </section>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="rounded-3xl p-8 bg-white border border-slate-200 shadow-lg relative space-y-4">
+              <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white font-black flex items-center justify-center text-lg">
+                1
+              </div>
+              <h3 className="text-xl font-bold text-slate-900">Create & Choose Template</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Sign up in seconds, pick your organization archetype (NGO, School, Faith, Foundation), and auto-seed a starter homepage.
+              </p>
+            </div>
 
-      <section style={ctaBanner}>
-        <div>
-          <div style={sectionKicker}>Ready to ship</div>
-          <h2 style={{ ...sectionTitle, color: "white", marginBottom: 10 }}>Turn the scaffold into a production SaaS.</h2>
-          <p style={{ color: "rgba(255,255,255,0.82)", maxWidth: 620, margin: 0 }}>
-            The landing page is the first impression. The dashboard and renderer are the product. This structure keeps
-            both cleanly separated.
-          </p>
-        </div>
-        <Link href="/signup" style={primaryButton}>
-          Create your workspace
-        </Link>
-      </section>
-    </main>
+            <div className="rounded-3xl p-8 bg-white border border-slate-200 shadow-lg relative space-y-4">
+              <div className="w-10 h-10 rounded-xl bg-teal-700 text-white font-black flex items-center justify-center text-lg">
+                2
+              </div>
+              <h3 className="text-xl font-bold text-slate-900">Customize in Visual Editor</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Add content with the Puck block editor, upload branding colors and logos, and set up donation amounts and payment gateways.
+              </p>
+            </div>
+
+            <div className="rounded-3xl p-8 bg-white border border-slate-200 shadow-lg relative space-y-4">
+              <div className="w-10 h-10 rounded-xl bg-slate-950 text-white font-black flex items-center justify-center text-lg">
+                3
+              </div>
+              <h3 className="text-xl font-bold text-slate-900">Publish & Connect Domain</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Hit publish to render high-speed ISR pages, connect your custom apex domain, and start receiving contributions immediately.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* TEMPLATES SHOWCASE */}
+        <TemplateGallery />
+
+        {/* CONVERSION CALL TO ACTION BANNER */}
+        <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="rounded-3xl bg-gradient-to-r from-emerald-800 via-teal-900 to-slate-950 p-10 sm:p-16 text-white shadow-2xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="space-y-4 max-w-xl text-center md:text-left z-10">
+              <span className="text-xs font-black uppercase tracking-widest text-amber-300">
+                Ready to transform your online presence?
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+                Build your organization’s site today.
+              </h2>
+              <p className="text-sm sm:text-base text-white/80 leading-relaxed">
+                Join hundreds of forward-thinking nonprofits and communities using OrgSites to grow support and tell their story.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row items-center gap-3 z-10 w-full md:w-auto">
+              <Button variant="gold" size="lg" asChild className="w-full sm:w-auto text-base px-8">
+                <Link href="/signup">
+                  <span>Get started free</span>
+                  <ArrowRight className="w-4 h-4 ml-1.5" />
+                </Link>
+              </Button>
+            </div>
+            <div className="absolute right-0 top-0 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+          </div>
+        </section>
+      </main>
+
+      <LandingFooter />
+    </div>
   );
 }
-
-const pageShell: React.CSSProperties = {
-  minHeight: "100vh",
-  background:
-    "radial-gradient(circle at top left, rgba(14, 110, 92, 0.12), transparent 30%), radial-gradient(circle at top right, rgba(199, 150, 46, 0.14), transparent 26%), linear-gradient(180deg, #ffffff 0%, #f8fafc 45%, #eef2ff 100%)",
-  color: "#0f172a",
-};
-
-const heroShell: React.CSSProperties = {
-  position: "relative",
-  overflow: "hidden",
-  padding: "88px 24px 64px",
-  display: "grid",
-  gridTemplateColumns: "minmax(0, 1.05fr) minmax(320px, 0.95fr)",
-  gap: 28,
-  alignItems: "center",
-  maxWidth: 1240,
-  margin: "0 auto",
-};
-
-const heroGlowOne: React.CSSProperties = {
-  position: "absolute",
-  inset: "8% auto auto -10%",
-  width: 360,
-  height: 360,
-  borderRadius: "50%",
-  background: "rgba(14, 110, 92, 0.12)",
-  filter: "blur(48px)",
-  pointerEvents: "none",
-};
-
-const heroGlowTwo: React.CSSProperties = {
-  position: "absolute",
-  right: -100,
-  top: 0,
-  width: 420,
-  height: 420,
-  borderRadius: "50%",
-  background: "rgba(199, 150, 46, 0.14)",
-  filter: "blur(56px)",
-  pointerEvents: "none",
-};
-
-const heroContent: React.CSSProperties = { position: "relative", zIndex: 1, maxWidth: 700 };
-const eyebrow: React.CSSProperties = {
-  display: "inline-flex",
-  padding: "8px 12px",
-  borderRadius: 999,
-  background: "rgba(15, 23, 42, 0.06)",
-  fontSize: 12,
-  fontWeight: 800,
-  letterSpacing: 1,
-  textTransform: "uppercase",
-};
-const heroTitle: React.CSSProperties = {
-  fontSize: "clamp(44px, 6vw, 76px)",
-  lineHeight: 0.98,
-  margin: "20px 0 18px",
-  letterSpacing: "-0.05em",
-  maxWidth: 920,
-};
-const heroCopy: React.CSSProperties = {
-  fontSize: 18,
-  lineHeight: 1.7,
-  color: "#334155",
-  maxWidth: 620,
-};
-const ctaRow: React.CSSProperties = { display: "flex", flexWrap: "wrap", gap: 12, marginTop: 28 };
-const primaryButton: React.CSSProperties = {
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: "14px 22px",
-  borderRadius: 999,
-  background: "linear-gradient(135deg, #0e6e5c, #1b2a4a)",
-  color: "white",
-  fontWeight: 800,
-  textDecoration: "none",
-  boxShadow: "0 18px 42px rgba(14, 110, 92, 0.24)",
-};
-const secondaryButton: React.CSSProperties = {
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: "14px 22px",
-  borderRadius: 999,
-  background: "rgba(15, 23, 42, 0.05)",
-  color: "#0f172a",
-  fontWeight: 800,
-  textDecoration: "none",
-};
-const socialProof: React.CSSProperties = { display: "flex", flexWrap: "wrap", gap: 10, marginTop: 26, color: "#475569" };
-
-const heroPanel: React.CSSProperties = {
-  position: "relative",
-  zIndex: 1,
-  borderRadius: 28,
-  background: "rgba(255,255,255,0.7)",
-  backdropFilter: "blur(16px)",
-  border: "1px solid rgba(15, 23, 42, 0.08)",
-  boxShadow: "0 28px 70px rgba(15,23,42,0.10)",
-  padding: 18,
-};
-const heroPanelHeader: React.CSSProperties = { fontSize: 13, fontWeight: 800, textTransform: "uppercase", color: "#64748b", marginBottom: 12 };
-const heroMockSite: React.CSSProperties = {
-  borderRadius: 22,
-  background: "linear-gradient(180deg, #f8fafc, #ffffff)",
-  border: "1px solid rgba(15, 23, 42, 0.08)",
-  padding: 24,
-  minHeight: 360,
-};
-const heroMockKicker: React.CSSProperties = { color: "#0e6e5c", fontWeight: 800, letterSpacing: 0.5, fontSize: 13 };
-const heroMockTitle: React.CSSProperties = { fontSize: 30, lineHeight: 1.04, fontWeight: 800, marginTop: 12, maxWidth: 400 };
-const heroMockBody: React.CSSProperties = { marginTop: 12, color: "#475569", lineHeight: 1.65, maxWidth: 400 };
-const heroMockStatRow: React.CSSProperties = {
-  marginTop: 32,
-  display: "grid",
-  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-  gap: 12,
-};
-
-const sectionShell: React.CSSProperties = { maxWidth: 1240, margin: "0 auto", padding: "28px 24px 0" };
-const sectionHeader: React.CSSProperties = { maxWidth: 760, marginBottom: 24 };
-const sectionKicker: React.CSSProperties = { color: "#0e6e5c", fontSize: 12, fontWeight: 900, letterSpacing: 1.2, textTransform: "uppercase" };
-const sectionTitle: React.CSSProperties = { fontSize: "clamp(28px, 4vw, 44px)", lineHeight: 1.05, margin: "10px 0 0", letterSpacing: "-0.04em" };
-const featureGrid: React.CSSProperties = { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 18 };
-const templateGrid: React.CSSProperties = { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 18 };
-const card: React.CSSProperties = {
-  padding: 22,
-  borderRadius: 24,
-  background: "white",
-  border: "1px solid rgba(15, 23, 42, 0.08)",
-  boxShadow: "0 18px 44px rgba(15, 23, 42, 0.06)",
-};
-const cardTitle: React.CSSProperties = { fontSize: 20, margin: "0 0 10px" };
-const cardBody: React.CSSProperties = { margin: 0, color: "#475569", lineHeight: 1.7 };
-const templateCard: React.CSSProperties = { ...card, minHeight: 160 };
-const templateName: React.CSSProperties = { display: "inline-flex", marginBottom: 12, fontWeight: 900, color: "#1b2a4a" };
-const faqCard: React.CSSProperties = {
-  ...card,
-  background: "linear-gradient(135deg, rgba(14,110,92,0.06), rgba(27,42,74,0.04))",
-};
-const steps: React.CSSProperties = { margin: "18px 0 0", paddingLeft: 20, lineHeight: 1.9, color: "#334155" };
-const ctaBanner: React.CSSProperties = {
-  maxWidth: 1240,
-  margin: "48px auto 0",
-  padding: "32px 24px 60px",
-  borderRadius: 0,
-  display: "flex",
-  flexWrap: "wrap",
-  alignItems: "center",
-  justifyContent: "space-between",
-  gap: 20,
-  background: "linear-gradient(135deg, #0e6e5c, #1b2a4a)",
-};

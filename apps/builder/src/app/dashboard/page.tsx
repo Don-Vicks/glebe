@@ -1,209 +1,278 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { 
+  Globe, 
+  Plus, 
+  Layers, 
+  Sparkles, 
+  Search, 
+  Filter, 
+  TrendingUp, 
+  CheckCircle2, 
+  FileText, 
+  CreditCard,
+  ArrowUpRight,
+  ShieldCheck,
+  AlertCircle
+} from "lucide-react";
 import { trpc } from "@/lib/trpc";
-import { LogoutButton } from "../logout-button";
-
-const checklist = [
-  { label: "Complete org profile", done: true },
-  { label: "Choose a template", done: false },
-  { label: "Connect payments", done: false },
-  { label: "Publish first page", done: false },
-];
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { LaunchChecklist } from "@/components/dashboard/launch-checklist";
+import { SiteCard } from "@/components/dashboard/site-card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 export default function DashboardPage() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState<"ALL" | "PUBLISHED" | "DRAFT">("ALL");
+
   const sitesQuery = trpc.sites.mine.useQuery();
-  const site = sitesQuery.data?.[0];
-  const orgName = site?.organization.name ?? "Your organization";
   const sites = sitesQuery.data ?? [];
+  const primarySite = sites[0];
+  const orgName = primarySite?.organization.name ?? "Your Organization";
+  
   const publishedCount = sites.filter((item) => item.status === "PUBLISHED").length;
   const draftCount = sites.length - publishedCount;
+  const totalPages = sites.reduce((acc, curr) => acc + (curr.pages?.length || 0), 0);
   const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN ?? "orgsites.app";
 
+  const filteredSites = sites.filter((s) => {
+    const matchesSearch = 
+      s.organization.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      s.subdomain.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesFilter = 
+      filterStatus === "ALL" || s.status === filterStatus;
+    return matchesSearch && matchesFilter;
+  });
+
   return (
-    <main style={shell}>
-      <section style={hero}>
-        <div>
-          <div style={eyebrow}>Workspace</div>
-          <h1 style={title}>{orgName}</h1>
-          <p style={subtitle}>
-            Manage your sites, pages, payments, and publishing workflow from one production-ready SaaS workspace.
-          </p>
-        </div>
-        <div style={actions}>
-          <LogoutButton />
-          <Link href="/" style={ghostButton}>
-            Marketing site
-          </Link>
-          <Link href="/onboarding" style={primaryButton}>
-            Create new site
-          </Link>
-        </div>
-      </section>
+    <div className="min-h-screen bg-slate-50/60 flex flex-col selection:bg-emerald-500/20 selection:text-emerald-900">
+      <DashboardHeader orgName={orgName} />
 
-      <nav style={workspaceNav} aria-label="Workspace navigation">
-        <Link href="/dashboard" style={activeNavLink}>Overview</Link>
-        <a href="#sites" style={navLink}>Sites</a>
-        <a href="#setup" style={navLink}>Launch checklist</a>
-      </nav>
-
-      <section style={statGrid} aria-label="Workspace summary">
-        <Stat label="Total sites" value={String(sites.length)} />
-        <Stat label="Published" value={String(publishedCount)} />
-        <Stat label="Drafts" value={String(draftCount)} />
-      </section>
-
-      <section id="setup" style={layout}>
-        <article style={panel}>
-          <div style={panelHeader}>
-            <div>
-              <div style={sectionKicker}>Setup</div>
-              <h2 style={panelTitle}>Launch checklist</h2>
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* Workspace Intro & Quick Stats */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 text-[11px] font-black uppercase tracking-wider">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Multi-Tenant Workspace</span>
             </div>
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-900">
+              {orgName}
+            </h1>
+            <p className="text-slate-600 text-sm">
+              Manage your published websites, pages, donations, and custom domains.
+            </p>
           </div>
-          <div style={checklistList}>
-            {checklist.map((item) => (
-              <div key={item.label} style={checkItem}>
-                <div style={checkbox(item.done)}>{item.done ? "✓" : ""}</div>
-                <span style={{ color: item.done ? "#0f172a" : "#475569" }}>{item.label}</span>
-              </div>
-            ))}
-          </div>
-        </article>
 
-        <article id="sites" style={panel}>
-          <div style={panelHeader}>
-            <div>
-              <div style={sectionKicker}>Sites</div>
-              <h2 style={panelTitle}>Your sites</h2>
+          <div className="flex items-center gap-3">
+            <Button variant="emerald" asChild className="gap-2 shadow-md">
+              <Link href="/onboarding">
+                <Plus className="w-4 h-4" />
+                <span>Create new site</span>
+              </Link>
+            </Button>
+          </div>
+        </div>
+
+        {/* Executive Metrics Overview */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card className="border-slate-200/80 bg-white/90 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-5 flex items-center justify-between">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Sites</span>
+                <div className="text-3xl font-black text-slate-900 mt-1">{sites.length}</div>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+                <Globe className="w-6 h-6" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-slate-200/80 bg-white/90 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-5 flex items-center justify-between">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Live Sites</span>
+                <div className="text-3xl font-black text-emerald-700 mt-1">{publishedCount}</div>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-slate-200/80 bg-white/90 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-5 flex items-center justify-between">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Draft Sites</span>
+                <div className="text-3xl font-black text-amber-600 mt-1">{draftCount}</div>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
+                <Layers className="w-6 h-6" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="border-slate-200/80 bg-white/90 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-5 flex items-center justify-between">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Pages</span>
+                <div className="text-3xl font-black text-slate-900 mt-1">{totalPages}</div>
+              </div>
+              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
+                <FileText className="w-6 h-6" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Dashboard Grid: Sites on Left, Launch Checklist on Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Main Sites Section */}
+          <div className="lg:col-span-8 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-xl font-bold text-slate-900">Your Sites</h2>
+                <p className="text-xs text-slate-500">Edit content or view live production sites.</p>
+              </div>
+
+              {/* Search & Filter Bar */}
+              <div className="flex items-center gap-2">
+                <div className="relative w-full sm:w-48">
+                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Input
+                    placeholder="Search sites…"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-8 h-9 text-xs rounded-full bg-white"
+                  />
+                </div>
+
+                <div className="flex items-center bg-slate-200/70 p-0.5 rounded-full text-xs font-bold">
+                  <button
+                    type="button"
+                    onClick={() => setFilterStatus("ALL")}
+                    className={`px-3 py-1 rounded-full transition-all ${
+                      filterStatus === "ALL" ? "bg-white text-slate-900 shadow-xs" : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    All
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFilterStatus("PUBLISHED")}
+                    className={`px-3 py-1 rounded-full transition-all ${
+                      filterStatus === "PUBLISHED" ? "bg-white text-emerald-800 shadow-xs" : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    Live
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setFilterStatus("DRAFT")}
+                    className={`px-3 py-1 rounded-full transition-all ${
+                      filterStatus === "DRAFT" ? "bg-white text-amber-800 shadow-xs" : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    Drafts
+                  </button>
+                </div>
+              </div>
             </div>
+
+            {/* Query states */}
+            {sitesQuery.isLoading && (
+              <div className="rounded-3xl border border-slate-200 bg-white p-12 text-center text-slate-500">
+                <div className="w-8 h-8 rounded-full border-2 border-emerald-600 border-t-transparent animate-spin mx-auto mb-3" />
+                <span className="text-sm font-semibold">Loading your workspace sites…</span>
+              </div>
+            )}
+
+            {sitesQuery.error && (
+              <div className="rounded-3xl border border-rose-200 bg-rose-50 p-6 flex items-center gap-3 text-rose-800 text-sm">
+                <AlertCircle className="w-5 h-5 shrink-0" />
+                <span>Error loading sites: {sitesQuery.error.message}</span>
+              </div>
+            )}
+
+            {/* Sites Grid */}
+            {!sitesQuery.isLoading && !sitesQuery.error && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {filteredSites.map((site) => (
+                  <SiteCard key={site.id} site={site} rootDomain={rootDomain} />
+                ))}
+              </div>
+            )}
+
+            {/* Empty state */}
+            {!sitesQuery.isLoading && !sitesQuery.error && filteredSites.length === 0 && (
+              <div className="rounded-3xl border border-dashed border-slate-300 bg-white/60 p-12 text-center space-y-4">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto">
+                  <Globe className="w-6 h-6" />
+                </div>
+                <div className="space-y-1 max-w-sm mx-auto">
+                  <h3 className="text-base font-bold text-slate-900">No sites found</h3>
+                  <p className="text-xs text-slate-500">
+                    {searchTerm || filterStatus !== "ALL"
+                      ? "No sites matched your current search or filter criteria."
+                      : "Create your first site and pick a starting template."}
+                  </p>
+                </div>
+                <Button variant="emerald" size="sm" asChild>
+                  <Link href="/onboarding">
+                    <Plus className="w-3.5 h-3.5 mr-1" />
+                    <span>Create a new site</span>
+                  </Link>
+                </Button>
+              </div>
+            )}
           </div>
 
-          {sitesQuery.isLoading && <p>Loading…</p>}
-          {sitesQuery.error && <p style={{ color: "#b91c1c" }}>Error loading sites: {sitesQuery.error.message}</p>}
+          {/* Right Sidebar: Launch Checklist */}
+          <div className="lg:col-span-4 space-y-6">
+            <LaunchChecklist 
+              hasOrg={Boolean(orgName)}
+              hasSite={sites.length > 0}
+              hasPublished={publishedCount > 0}
+            />
 
-          <div style={siteList}>
-          {sites.map((site) => (
-            <article key={site.id} style={siteCard}>
-              <div style={siteCardTop}>
-                <div style={siteLabel}>{site.subdomain}.{rootDomain}</div>
-                <span style={statusBadge(site.status)}>{site.status === "PUBLISHED" ? "Published" : "Draft"}</span>
-              </div>
-              <h3 style={siteName}>{site.organization.name}</h3>
-              <p style={siteMeta}>
-                {site.pages.length} page{site.pages.length === 1 ? "" : "s"} · {site.status === "PUBLISHED" && site.publishedAt ? `Live since ${new Date(site.publishedAt).toLocaleDateString()}` : "Not published yet"}
-              </p>
-              <div style={siteActions}>
-                <Link href={`/sites/${site.id}/pages/${site.pages[0]?.id ?? "home"}`} style={siteLink}>
-                  Edit site
+            {/* Quick Links Card */}
+            <Card className="border-slate-200/80 bg-white/90 shadow-sm">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base font-bold">Quick Actions</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2 text-xs font-semibold">
+                <Link
+                  href="/onboarding"
+                  className="flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-emerald-50/50 hover:text-emerald-700 transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    <Plus className="w-4 h-4 text-emerald-600" />
+                    <span>Create another site</span>
+                  </span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-slate-400" />
                 </Link>
-                {site.status === "PUBLISHED" && (
-                  <a href={`https://${site.customDomain ?? `${site.subdomain}.${rootDomain}`}`} target="_blank" rel="noreferrer" style={liveLink}>
-                    View live site ↗
-                  </a>
-                )}
-              </div>
-            </article>
-          ))}
-          {!sitesQuery.isLoading && !sitesQuery.error && sites.length === 0 && (
-            <div style={emptyState}>
-              <strong>Your first site starts here.</strong>
-              <span>Choose a template and create a publishable home for your organization.</span>
-              <Link href="/onboarding" style={siteLink}>Create a site →</Link>
-            </div>
-          )}
+
+                <a
+                  href="/"
+                  target="_blank"
+                  className="flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-slate-600" />
+                    <span>View marketing site</span>
+                  </span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-slate-400" />
+                </a>
+              </CardContent>
+            </Card>
           </div>
-        </article>
-      </section>
-    </main>
+        </div>
+      </main>
+    </div>
   );
 }
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return <div style={statCard}><span style={statLabel}>{label}</span><strong style={statValue}>{value}</strong></div>;
-}
-
-const shell: React.CSSProperties = {
-  minHeight: "100vh",
-  padding: "40px 24px 64px",
-  background: "linear-gradient(180deg, #f8fafc, #eef2ff)",
-  color: "#0f172a",
-};
-const hero: React.CSSProperties = {
-  maxWidth: 1240,
-  margin: "0 auto 28px",
-  display: "flex",
-  justifyContent: "space-between",
-  gap: 20,
-  alignItems: "flex-end",
-  flexWrap: "wrap",
-};
-const eyebrow: React.CSSProperties = { color: "#0e6e5c", fontSize: 12, fontWeight: 900, letterSpacing: 1.2, textTransform: "uppercase" };
-const title: React.CSSProperties = { margin: "10px 0 8px", fontSize: "clamp(32px, 4vw, 50px)", lineHeight: 1.05 };
-const subtitle: React.CSSProperties = { margin: 0, color: "#475569", maxWidth: 700, lineHeight: 1.7 };
-const actions: React.CSSProperties = { display: "flex", gap: 10, flexWrap: "wrap" };
-const workspaceNav: React.CSSProperties = { maxWidth: 1240, margin: "0 auto 18px", display: "flex", gap: 22, borderBottom: "1px solid rgba(15, 23, 42, 0.1)", paddingBottom: 12 };
-const navLink: React.CSSProperties = { color: "#64748b", textDecoration: "none", fontSize: 14, fontWeight: 700 };
-const activeNavLink: React.CSSProperties = { ...navLink, color: "#0e6e5c" };
-const statGrid: React.CSSProperties = { maxWidth: 1240, margin: "0 auto 18px", display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 12 };
-const statCard: React.CSSProperties = { padding: "16px 18px", borderRadius: 18, background: "rgba(255,255,255,0.76)", border: "1px solid rgba(15, 23, 42, 0.08)" };
-const statLabel: React.CSSProperties = { display: "block", color: "#64748b", fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: 1 };
-const statValue: React.CSSProperties = { display: "block", marginTop: 7, color: "#1b2a4a", fontSize: 28 };
-const buttonBase: React.CSSProperties = {
-  padding: "12px 16px",
-  borderRadius: 999,
-  textDecoration: "none",
-  fontWeight: 800,
-};
-const ghostButton: React.CSSProperties = {
-  ...buttonBase,
-  background: "white",
-  color: "#0f172a",
-  border: "1px solid rgba(15, 23, 42, 0.08)",
-};
-const primaryButton: React.CSSProperties = {
-  ...buttonBase,
-  background: "linear-gradient(135deg, #0e6e5c, #1b2a4a)",
-  color: "white",
-};
-const layout: React.CSSProperties = { maxWidth: 1240, margin: "0 auto", display: "grid", gap: 18, gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))" };
-const panel: React.CSSProperties = {
-  padding: 22,
-  borderRadius: 28,
-  background: "rgba(255,255,255,0.92)",
-  border: "1px solid rgba(15, 23, 42, 0.08)",
-  boxShadow: "0 20px 56px rgba(15,23,42,0.08)",
-};
-const panelHeader: React.CSSProperties = { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 18 };
-const sectionKicker: React.CSSProperties = { color: "#0e6e5c", fontSize: 12, fontWeight: 900, letterSpacing: 1.1, textTransform: "uppercase" };
-const panelTitle: React.CSSProperties = { margin: "8px 0 0", fontSize: 24 };
-const checklistList: React.CSSProperties = { display: "grid", gap: 12 };
-const checkItem: React.CSSProperties = { display: "flex", alignItems: "center", gap: 12, padding: 14, borderRadius: 18, background: "#f8fafc" };
-const checkbox = (done: boolean): React.CSSProperties => ({
-  width: 24,
-  height: 24,
-  borderRadius: 999,
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  background: done ? "#0e6e5c" : "#e2e8f0",
-  color: "white",
-  fontWeight: 900,
-  flexShrink: 0,
-});
-const siteList: React.CSSProperties = { display: "grid", gap: 14 };
-const siteCard: React.CSSProperties = {
-  padding: 18,
-  borderRadius: 22,
-  border: "1px solid rgba(15, 23, 42, 0.08)",
-  background: "white",
-};
-const siteLabel: React.CSSProperties = { color: "#0e6e5c", fontSize: 12, fontWeight: 900, letterSpacing: 1.1, textTransform: "uppercase" };
-const siteCardTop: React.CSSProperties = { display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 };
-const statusBadge = (status: string): React.CSSProperties => ({ padding: "5px 9px", borderRadius: 999, background: status === "PUBLISHED" ? "#e8f5ef" : "#fff6df", color: status === "PUBLISHED" ? "#145c4a" : "#8a6410", fontSize: 11, fontWeight: 900, textTransform: "uppercase", letterSpacing: 0.7 });
-const siteName: React.CSSProperties = { margin: "10px 0 6px", fontSize: 18 };
-const siteMeta: React.CSSProperties = { margin: 0, color: "#64748b" };
-const siteActions: React.CSSProperties = { display: "flex", flexWrap: "wrap", gap: 16, marginTop: 14 };
-const siteLink: React.CSSProperties = { display: "inline-flex", color: "#0e6e5c", fontWeight: 800, textDecoration: "none" };
-const liveLink: React.CSSProperties = { display: "inline-flex", color: "#1b2a4a", fontWeight: 800, textDecoration: "none" };
-const emptyState: React.CSSProperties = { display: "grid", gap: 8, padding: 22, borderRadius: 18, background: "#f8fafc", color: "#475569", lineHeight: 1.5 };

@@ -28,6 +28,7 @@ const isAuthed = middleware(({ ctx, next }) => {
   });
 });
 
+/** Authed-but-any-role procedure (reads). */
 export const protectedProcedure = t.procedure.use(isAuthed);
 
 /**

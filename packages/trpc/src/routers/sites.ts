@@ -123,6 +123,7 @@ export const sitesRouter = router({
       return updated;
     }),
 
+  /** Register a custom domain + create a pending verification record. */
   requestCustomDomain: editorProcedure
     .input(z.object({ siteId: z.string(), domain: z.string() }))
     .mutation(async ({ ctx, input }) => {

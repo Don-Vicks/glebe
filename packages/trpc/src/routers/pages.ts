@@ -22,6 +22,7 @@ export const pagesRouter = router({
       });
     }),
 
+  /** Single page by id, scoped to the caller's organization. */
   byId: protectedProcedure
     .input(z.object({ pageId: z.string() }))
     .query(async ({ ctx, input }) => {

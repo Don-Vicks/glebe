@@ -17,6 +17,7 @@ datasource db {
 // Organizations & Users
 // ---------------------------------------------------------------------------
 
+/** Organization archetype — seeds the default site template. */
 enum OrgType {
   NGO
   FAITH_BASED

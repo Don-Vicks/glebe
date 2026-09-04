@@ -63,6 +63,7 @@ export const brand = {
   },
 } as const;
 
+/** Font stacks shared by block renderers (brand.md §3). */
 export const fontFamily = {
   sans: "'Plus Jakarta Sans', system-ui, sans-serif",
 } as const;

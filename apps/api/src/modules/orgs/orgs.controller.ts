@@ -12,6 +12,7 @@ export class OrgsController {
   constructor(private readonly orgsService: OrgsService) {}
 
   @Post()
+  /** REST counterpart to the tRPC org creation path (spec §5.2). */
   create(@Body() body: CreateOrgDto) {
     return this.orgsService.create(body);
   }
